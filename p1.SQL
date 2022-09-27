@@ -76,7 +76,6 @@ CREATE TABLE Feel(
     userid int NOT NULL,
     rid int NOT NULL,
     feel text NOT NULL,
-    hate_time DATE,
     PRIMARY KEY (userid, rid),
     FOREIGN KEY (userid) REFERENCES Users,
     FOREIGN KEY (rid) REFERENCES Restaurant,
