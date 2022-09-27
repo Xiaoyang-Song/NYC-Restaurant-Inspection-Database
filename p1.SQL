@@ -22,20 +22,23 @@ CREATE TABLE Restaurant(
     cuisine text
 );
 
+-- Entity: Grade
 CREATE TABLE Grade(
     gid serial PRIMARY KEY,
-    grade CHAR(2) NOT NULL,
+    grade CHAR(1) NOT NULL,
     score float,
     CHECK (
         grade in ('A', 'B', 'C', 'P', 'Z')
     )
 );
 
+-- Entity: Inspection
 CREATE TABLE Inspection(
     iid serial PRIMARY KEY,
     i_type text
 );
 
+-- Entity: Violation
 CREATE TABLE Violation(
     vid serial PRIMARY KEY,
     code text,
@@ -46,6 +49,7 @@ CREATE TABLE Violation(
     )
 );
 
+-- Entity: Locations
 CREATE TABLE Locations(
     lid serial PRIMARY KEY,
     district text,
@@ -57,6 +61,7 @@ CREATE TABLE Locations(
     )
 );
 
+-- Combine relationship sets and entity sets to model weak entity
 CREATE TABLE Reviews_Post_Have(
     rev_id serial PRIMARY KEY,
     content text NOT NULL,
@@ -67,11 +72,14 @@ CREATE TABLE Reviews_Post_Have(
     FOREIGN KEY (rid) REFERENCES Restaurant ON DELETE CASCADE
 );
 
+-- Relationship sets
 CREATE TABLE Locates(
     rid int PRIMARY KEY REFERENCES Restaurant,
     lid int NOT NULL REFERENCES Locations
 );
 
+-- Relationship sets: note that when translating to relational schema
+-- We combine Like and Dislike into Feel to make things more efficient
 CREATE TABLE Feel(
     userid int NOT NULL,
     rid int NOT NULL,
@@ -84,6 +92,7 @@ CREATE TABLE Feel(
     )
 );
 
+-- Relationship set: Graded
 CREATE TABLE Graded(
     rid int NOT NULL,
     gid int NOT NULL,
@@ -93,6 +102,7 @@ CREATE TABLE Graded(
     FOREIGN KEY (gid) REFERENCES Grade
 );
 
+-- Relationship Set: Inspect
 CREATE TABLE Inspect(
     rid int NOT NULL,
     iid int NOT NULL,
@@ -102,6 +112,7 @@ CREATE TABLE Inspect(
     FOREIGN KEY (iid) REFERENCES Inspection
 );
 
+-- Relationship Set: Violate
 CREATE TABLE Violate(
     rid int NOT NULL,
     vid int NOT NULL,
@@ -110,6 +121,7 @@ CREATE TABLE Violate(
     FOREIGN KEY (vid) REFERENCES Violation
 );
 
+-- Relationship Set: Found
 CREATE TABLE Found(
     iid int NOT NULL,
     vid int NOT NULL,
