@@ -62,10 +62,10 @@ CREATE TABLE Locations(
 );
 
 -- Combine relationship sets and entity sets to model weak entity
-CREATE TABLE Reviews_Post_Have(
+CREATE TABLE Reviews_Post_Own(
     rev_id serial PRIMARY KEY,
     content text NOT NULL,
-    rev_time DATE,
+    post_time DATE,
     userid int NOT NULL,
     rid int NOT NULL,
     FOREIGN KEY (userid) REFERENCES Users ON DELETE CASCADE,
