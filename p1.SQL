@@ -9,7 +9,7 @@ CREATE TABLE Users(
     dob date,
     district text,
     CHECK (
-        district IN ("Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island")
+        district IN ('Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island')
     )
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE Grade(
     grade CHAR(2) NOT NULL,
     score float,
     CHECK (
-        grade in ('A', "B", 'C', 'P', 'Z')
+        grade in ('A', 'B', 'C', 'P', 'Z')
     )
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE Violation(
     v_description text,
     critical_flag text,
     CHECK (
-        critical_flag IN ("Critical", "Not Critical", "Not Applicable")
+        critical_flag IN ('Critical', 'Not Critical', 'Not Applicable')
     )
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE Locations(
     street text,
     building text,
     CHECK (
-        district IN ("Manhattan", "Bronx", "Brooklyn", "Queens", "Staten Island")
+        district IN ('Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island')
     )
 );
 
@@ -66,10 +66,8 @@ CREATE TABLE Reviews_Post_Have(
 );
 
 CREATE TABLE Locate(
-    rid int REFERENCES Restaurant,
-    lid int REFERENCES Locations,
-    NOT NULL lid,
-    PRIMARY KEY rid
+    rid int PRIMARY KEY REFERENCES Restaurant,
+    lid int NOT NULL REFERENCES Locations
 );
 
 CREATE TABLE Feel(
@@ -81,7 +79,7 @@ CREATE TABLE Feel(
     FOREIGN KEY (userid) REFERENCES Users,
     FOREIGN KEY (rid) REFERENCES Restaurant,
     CHECK (
-        feel IN ("Like", "Dislike")
+        feel IN ('Like', 'Dislike')
     )
 );
 
