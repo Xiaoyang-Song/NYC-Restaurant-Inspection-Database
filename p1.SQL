@@ -122,7 +122,7 @@ CREATE TABLE Violate(
 );
 
 -- Relationship Set: Found
-CREATE TABLE Found(
+CREATE TABLE Find(
     iid int NOT NULL,
     vid int NOT NULL,
     PRIMARY KEY (iid, vid),
