@@ -13,10 +13,12 @@ CREATE TABLE Users(
     )
 );
 
+-- Entity: Restaurant
+-- Note that for phone_number, we focus on US phone number only.
 CREATE TABLE Restaurant(
     rid serial PRIMARY KEY,
-    DBA text NOT NULL,
-    phone_number VARCHAR(10),
+    DBA text NOT NULL, -- DBA stands for "Doing Business As" (Acronym)
+    phone_number VARCHAR(10), 
     cuisine text
 );
 
@@ -57,7 +59,7 @@ CREATE TABLE Locations(
 
 CREATE TABLE Reviews_Post_Have(
     rev_id serial PRIMARY KEY,
-    content text,
+    content text NOT NULL,
     rev_time DATE,
     userid int NOT NULL,
     rid int NOT NULL,
@@ -65,7 +67,7 @@ CREATE TABLE Reviews_Post_Have(
     FOREIGN KEY (rid) REFERENCES Restaurant ON DELETE CASCADE
 );
 
-CREATE TABLE Locate(
+CREATE TABLE Locates(
     rid int PRIMARY KEY REFERENCES Restaurant,
     lid int NOT NULL REFERENCES Locations
 );
