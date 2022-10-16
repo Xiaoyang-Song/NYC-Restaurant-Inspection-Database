@@ -13,10 +13,11 @@ R_to_col = {
     'Graded': ['GRADE DATE']
 }
 
+RELATION_NAME = ['Restaurant']
+
 
 class TOKEN(Enum):
     NA = np.arange(1)
-
 
 
 if __name__ == '__main__':
