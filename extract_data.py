@@ -9,7 +9,7 @@ def extract(df, num_fields: int, relation_name: str, default: list):
     assert len(default) == num_fields
     colname = R_to_col[relation_name]
     data = np.array(df[colname])
-    # Replace nan with default values
+    # Replace NA with default values
     for i in range(3):
         mask = data[:, i] == TOKEN.NA
         ic(f'{sum(mask)} rows have no {colname[i]}.')
@@ -17,11 +17,17 @@ def extract(df, num_fields: int, relation_name: str, default: list):
     return data
 
 
+def preprocess(path):
+    df = pd.read_csv(path)
+    df = df.fillna(TOKEN.NA)
+    # Add more if needed
+    return df
+
+
 if __name__ == '__main__':
     ic('Extracting data')
     path = 'Data/data.csv'
-    df = pd.read_csv(path)
-    df = df.fillna(TOKEN.NA)
+    df = preprocess(path)
     restaurant = extract(df, 3, 'Restaurant', [
                          'No Name', 'No Number', 'No Description'])
     ic(restaurant)
