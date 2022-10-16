@@ -1,5 +1,7 @@
+from enum import Enum
 import pandas as pd
 from icecream import ic
+import numpy as np
 
 R_to_col = {
     'Restaurant': ['DBA', 'PHONE', 'CUISINE DESCRIPTION'],
@@ -11,5 +13,12 @@ R_to_col = {
     'Graded': ['GRADE DATE']
 }
 
+
+class TOKEN(Enum):
+    NA = np.arange(1)
+
+
+
 if __name__ == '__main__':
     ic(R_to_col)
+    ic(TOKEN.NA)
