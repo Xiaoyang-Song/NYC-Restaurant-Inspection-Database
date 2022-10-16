@@ -17,11 +17,10 @@ def extract(df, relation_name: str, num_fields=None, default=None):
     #     data[mask, i] = default[i]
     return data
 
-
 def preprocess(path):
     df = pd.read_csv(path)
     # df = df.fillna(TOKEN.NA)
-    # df = df.fillna()
+    df = df.fillna('NULL')
     # Add more if needed
     return df
 
