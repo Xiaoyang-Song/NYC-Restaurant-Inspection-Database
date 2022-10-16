@@ -5,9 +5,9 @@ import numpy as np
 from utils import R_to_col, TOKEN
 
 
-def restaurant(df, default):
-    assert len(default) == 3
-    colname = R_to_col['Restaurant']
+def extract(df, num_fields: int, relation_name: str, default: list):
+    assert len(default) == num_fields
+    colname = R_to_col[relation_name]
     data = np.array(df[colname])
     # Replace nan with default values
     for i in range(3):
@@ -22,8 +22,6 @@ if __name__ == '__main__':
     path = 'Data/data.csv'
     df = pd.read_csv(path)
     df = df.fillna(TOKEN.NA)
-    ic(type(['No Name', 'No Number', 'No Description']))
-    restaurant(df, ['No Name', 'No Number', 'No Description'])
-    # ic(type(df))
-    # ic(list(df.loc[0]))
-    # ic(list(df.columns))
+    restaurant = extract(df, 3, 'Restaurant', [
+                         'No Name', 'No Number', 'No Description'])
+    ic(restaurant)
