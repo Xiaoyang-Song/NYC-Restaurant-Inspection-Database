@@ -10,7 +10,7 @@ def extract(df, relation_name: str, num_fields:int, default:list):
     colname = R_to_col[relation_name]
     data = np.array(df[colname])
     # Replace NA with default values
-    for i in range(3):
+    for i in range(num_fields):
         mask = data[:, i] == TOKEN.NA
         ic(f'{sum(mask)} rows have no {colname[i]}.')
         data[mask, i] = default[i]
