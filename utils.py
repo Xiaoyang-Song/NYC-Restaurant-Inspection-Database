@@ -15,10 +15,7 @@ R_to_col = {
 
 RELATION_NAME = ['Restaurant']
 LOCATION_SET = ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
-
-# Dictionary for re-usage
-GRADE_DICT = {}
-
+GRADE_SET = ['A', 'B', 'C', 'P', 'N', 'Z', 'NULL'] # NULL is added to handle edge case
 
 class TOKEN(Enum):
     NA = -1
