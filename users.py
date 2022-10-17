@@ -15,8 +15,8 @@ def add_user(connection, account_name: str, passcode: str, dob='NULL', district=
 def add_feel(connection, uid: int, rid: list, feel: list):
     assert len(rid) == len(feel)
     for id, fl in zip(rid, feel):
-        assert feel in FEEL_SET
-        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES({uid}, {id},'{feel}')"
+        assert fl in FEEL_SET
+        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES({uid}, {id},'{fl}')"
         cursor = connection.execute(cmd)
 
 
