@@ -1,4 +1,5 @@
 from math import isnan
+from collections import Counter
 from icecream import ic
 import pandas as pd
 import numpy as np
@@ -31,6 +32,18 @@ def preprocess(path):
     return df
 
 
+def get_info(df, relation_name, num_fields: int, get_count: list):
+    # Majorly used for Grades, Inspection, and Violation.
+    assert num_fields == len(get_count)
+    ic(f"Category information for {relation_name}")
+    colname = R_to_col[relation_name]
+    df = np.array(df[colname])
+    np.arange(num_fields)[get_count]
+    for i in np.arange(num_fields)[get_count]:
+        ic(colname[i])
+        ic(Counter(df[:, i]))
+
+
 if __name__ == '__main__':
     ic('Extracting data')
     path = 'Data/data.csv'
@@ -41,4 +54,7 @@ if __name__ == '__main__':
     ic(location)
     grades = extract(df.head(100), 'Grades', 2, ['NULL']*2)
     ic(grades)
-    ic(['NULL', 'NULL']==['NULL'] * 2)
+    ic(['NULL', 'NULL'] == ['NULL'] * 2)
+
+    # Test get_info
+    get_info(df, 'Grades', 2, [False, True])
