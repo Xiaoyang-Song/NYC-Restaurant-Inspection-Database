@@ -9,6 +9,7 @@ def extract(df, relation_name: str, num_fields: int, default: list):
     assert len(default) == num_fields
     colname = R_to_col[relation_name]
     data = np.array(df[colname])
+    ic(relation_name)
     # Replace NA with default values
     for i in range(num_fields):
         mask = data[:, i] == TOKEN.NA
