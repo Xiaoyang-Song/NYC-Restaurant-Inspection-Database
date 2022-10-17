@@ -14,10 +14,11 @@ R_to_col = {
 }
 
 RELATION_NAME = ['Restaurant']
+LOCATION_SET = ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
 
 
 class TOKEN(Enum):
-    NA = np.arange(1)
+    NA = -1
 
 
 if __name__ == '__main__':

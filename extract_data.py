@@ -20,9 +20,14 @@ def extract(df, relation_name: str, num_fields: int, default: list):
 
 def preprocess(path):
     df = pd.read_csv(path)
-    # df = df.fillna(TOKEN.NA)
     df = df.fillna(TOKEN.NA)
     # Add more if needed
+    # For locations: change all not null zipcode to int
+    zipcode = np.array(df['ZIPCODE'])
+    idx = zipcode != TOKEN.NA
+    zipcode[idx] = np.array(zipcode[idx],dtype=np.int)
+    df['ZIPCODE'] = zipcode
+    # df = df.fillna(TOKEN.NA)
     return df
 
 
