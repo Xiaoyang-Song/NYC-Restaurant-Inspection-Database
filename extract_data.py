@@ -5,7 +5,7 @@ import numpy as np
 from utils import R_to_col, TOKEN
 
 
-def extract(df, relation_name: str, num_fields:int, default:list):
+def extract(df, relation_name: str, num_fields: int, default: list):
     assert len(default) == num_fields
     colname = R_to_col[relation_name]
     data = np.array(df[colname])
@@ -15,6 +15,7 @@ def extract(df, relation_name: str, num_fields:int, default:list):
         ic(f'{sum(mask)} rows have no {colname[i]}.')
         data[mask, i] = default[i]
     return data
+
 
 def preprocess(path):
     df = pd.read_csv(path)
@@ -28,6 +29,7 @@ if __name__ == '__main__':
     ic('Extracting data')
     path = 'Data/data.csv'
     df = preprocess(path)
-    restaurant = extract(df, 3, 'Restaurant', [
-                         'No Name', 'No Number', 'No Description'])
-    ic(restaurant[0, 2])
+    # restaurant = extract(df, 3, 'Restaurant', [
+    #                      'No Name', 'No Number', 'No Description'])
+    location = extract(df, 'Location', 4, ['NULL']*4)
+    ic(location)
