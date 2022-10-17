@@ -22,10 +22,10 @@ def preprocess(path):
     df = pd.read_csv(path)
     df = df.fillna(TOKEN.NA)
     # Add more if needed
-    # For locations: change all not null zipcode to int
+    # Entity: Location: change all not null zipcode to int
     zipcode = np.array(df['ZIPCODE'])
     idx = zipcode != TOKEN.NA
-    zipcode[idx] = np.array(zipcode[idx],dtype=np.int)
+    zipcode[idx] = np.array(zipcode[idx], dtype=np.int)
     df['ZIPCODE'] = zipcode
     # df = df.fillna(TOKEN.NA)
     return df
@@ -39,3 +39,6 @@ if __name__ == '__main__':
     #                      'No Name', 'No Number', 'No Description'])
     location = extract(df, 'Location', 4, ['NULL']*4)
     ic(location)
+    grades = extract(df.head(100), 'Grades', 2, ['NULL']*2)
+    ic(grades)
+    ic(['NULL', 'NULL']==['NULL'] * 2)

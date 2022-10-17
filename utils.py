@@ -16,6 +16,9 @@ R_to_col = {
 RELATION_NAME = ['Restaurant']
 LOCATION_SET = ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
 
+# Dictionary for re-usage
+GRADE_DICT = {}
+
 
 class TOKEN(Enum):
     NA = -1
