@@ -12,5 +12,13 @@ def add_user(connection, account_name: str, passcode: str, dob='NULL', district=
     cursor = connection.execute(cmd)
 
 
+def add_feel(connection, uid: int, rid: list, feel: list):
+    assert len(rid) == len(feel)
+    for id, fl in zip(rid, feel):
+        assert feel in FEEL_SET
+        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES({uid}, {id},'{feel}')"
+        cursor = connection.execute(cmd)
+
+
 if __name__ == '__main__':
     ic('Users Manipulation Scripts')

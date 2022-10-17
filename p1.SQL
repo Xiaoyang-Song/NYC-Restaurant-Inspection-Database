@@ -80,6 +80,7 @@ CREATE TABLE Locates(
 
 -- Relationship sets: note that when translating to relational schema
 -- We combine Like and Dislike into Feel to make things more efficient
+-- Assumption: an user can not like and dislike a restaurant simultaneously
 CREATE TABLE Feel(
     userid int NOT NULL,
     rid int NOT NULL,
