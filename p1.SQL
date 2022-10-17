@@ -28,7 +28,7 @@ CREATE TABLE Grade(
     grade CHAR(1) NOT NULL,
     score float,
     CHECK (
-        grade in ('A', 'B', 'C', 'P', 'Z')
+        grade in ('A', 'B', 'C', 'N','P', 'Z')
     )
 );
 
