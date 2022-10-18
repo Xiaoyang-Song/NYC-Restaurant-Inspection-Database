@@ -90,8 +90,8 @@ CREATE TABLE IF NOT EXISTS Feel(
 CREATE TABLE IF NOT EXISTS Graded(
     rid int NOT NULL,
     gid int NOT NULL,
-    g_time DATE,
-    PRIMARY KEY (rid, gid),
+    g_time DATE NOT NULL,
+    PRIMARY KEY (rid, gid, g_time),
     FOREIGN KEY (rid) REFERENCES Restaurant,
     FOREIGN KEY (gid) REFERENCES Grade
 );
