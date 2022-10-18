@@ -20,5 +20,12 @@ def add_feel(connection, uid: int, rid: list, feel: list):
         cursor = connection.execute(cmd)
 
 
+def add_reviews(connection, uid: int, rid: int, content: str):
+    # Errors relating to nonexisting rid and uid are handled elsewhere
+    cmd = f"INSERT INTO Reviews_Post_Own(content, post_time, userid, rid) "\
+          f"VALUES('{content}', '{get_time_signature()}', {uid}, {rid})"
+    cursor = connection.execute(cmd)
+
+
 if __name__ == '__main__':
     ic('Users Manipulation Scripts')

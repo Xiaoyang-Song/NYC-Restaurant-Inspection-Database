@@ -2,6 +2,7 @@ from enum import Enum
 import pandas as pd
 from icecream import ic
 import numpy as np
+from time import gmtime, strftime
 
 R_to_col = {
     'Restaurant': ['DBA', 'PHONE', 'CUISINE DESCRIPTION'],
@@ -22,6 +23,11 @@ FEEL_SET = ['Like', 'Dislike']
 GRADE_DICT = {}
 
 
+def get_time_signature():
+    # return strftime("%m-%Y-%d-%H:%M:%S", gmtime()) # For specific time
+    return strftime("%m/%d/%y", gmtime())
+
+
 class TOKEN(Enum):
     NA = -1
 
@@ -29,3 +35,4 @@ class TOKEN(Enum):
 if __name__ == '__main__':
     ic(R_to_col)
     ic(TOKEN.NA)
+    ic(get_time_signature())
