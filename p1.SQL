@@ -107,8 +107,8 @@ CREATE TABLE Graded(
 CREATE TABLE Inspect(
     rid int NOT NULL,
     iid int NOT NULL,
-    i_time DATE,
-    PRIMARY KEY (rid, iid),
+    i_time DATE NOT NULL,
+    PRIMARY KEY (rid, iid, i_time),
     FOREIGN KEY (rid) REFERENCES Restaurant,
     FOREIGN KEY (iid) REFERENCES Inspection
 );
@@ -117,12 +117,14 @@ CREATE TABLE Inspect(
 CREATE TABLE Violate(
     rid int NOT NULL,
     vid int NOT NULL,
-    PRIMARY KEY (rid, vid),
+    v_time DATE NOT NULL,
+    PRIMARY KEY (rid, vid, v_time),
     FOREIGN KEY (rid) REFERENCES Restaurant,
     FOREIGN KEY (vid) REFERENCES Violation
 );
 
 -- Relationship Set: Found
+-- Update: this is no needed anymore
 CREATE TABLE Find(
     iid int NOT NULL,
     vid int NOT NULL,
