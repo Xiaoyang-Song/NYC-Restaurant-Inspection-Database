@@ -180,6 +180,11 @@ def another():
     return render_template("anotherfile.html")
 
 
+@app.route('/example')
+def example():
+    return render_template("example.html")
+
+
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
