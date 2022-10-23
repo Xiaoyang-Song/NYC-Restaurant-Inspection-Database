@@ -49,10 +49,10 @@ engine = create_engine(DATABASEURI)
 # Here we create a test table and insert some values in it
 # engine.execute("""DROP TABLE IF EXISTS test;""")
 # engine.execute("""GRANT USAGE ON SCHEMA public TO xs2485""")
-cursor = engine.execute("""SELECT *
-FROM pg_catalog.pg_tables
-WHERE tableowner='xs2485';""")
-print(cursor)
+# cursor = engine.execute("""SELECT *
+# FROM pg_catalog.pg_tables
+# WHERE tableowner='xs2485';""")
+# print(cursor)
 # engine.execute(
 #     """GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO xs2485;""")
 # engine.execute(b
@@ -123,11 +123,11 @@ def index():
     #
     # example of a database query
     #
-    cursor = g.conn.execute("SELECT name FROM test")
-    names = []
-    for result in cursor:
-        names.append(result['name'])  # can also be accessed using result[0]
-    cursor.close()
+    # cursor = g.conn.execute("SELECT name FROM test")
+    # names = []
+    # for result in cursor:
+    #     names.append(result['name'])  # can also be accessed using result[0]
+    # cursor.close()
 
     #
     # Flask uses Jinja templates, which is an extension to HTML where you can
