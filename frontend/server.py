@@ -15,9 +15,11 @@ from os import abort
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
+from icecream import ic
 
 tmpl_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'templates')
+ic(tmpl_dir)
 app = Flask(__name__, template_folder=tmpl_dir)
 
 
