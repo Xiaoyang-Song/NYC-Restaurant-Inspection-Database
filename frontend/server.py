@@ -16,6 +16,7 @@ from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
 from icecream import ic
+from register import *
 
 tmpl_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'templates')
