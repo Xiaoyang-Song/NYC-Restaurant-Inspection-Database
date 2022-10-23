@@ -1,0 +1,7 @@
+icecream
+flask
+click
+sqlalchemy
+numpy
+pandas
+time
