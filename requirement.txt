@@ -4,4 +4,3 @@ click
 sqlalchemy
 numpy
 pandas
-time
