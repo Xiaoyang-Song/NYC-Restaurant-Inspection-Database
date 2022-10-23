@@ -128,7 +128,7 @@ def index():
     # for result in cursor:
     #     names.append(result['name'])  # can also be accessed using result[0]
     # cursor.close()
-
+    names = ['hello']
     #
     # Flask uses Jinja templates, which is an extension to HTML where you can
     # pass data to a template and dynamically generate HTML based on the data
