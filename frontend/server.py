@@ -16,12 +16,14 @@ from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
 from icecream import ic
-from register import *
+import register
+# from db_utils import get_db_conn
 
 tmpl_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'templates')
 ic(tmpl_dir)
 app = Flask(__name__, template_folder=tmpl_dir)
+app.register_blueprint(register.bp)
 
 
 # XXX: The Database URI should be in the format of:
@@ -43,6 +45,8 @@ app = Flask(__name__, template_folder=tmpl_dir)
 # DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
 local_database = "postgresql://postgres:Sxy20000425@localhost/proj1part3"
 engine = create_engine(local_database)
+
+# engine = get_db_conn()
 #
 # This line creates a database engine that knows how to connect to the URI above
 #
@@ -199,60 +203,6 @@ def add():
     cmd = 'INSERT INTO test(name) VALUES (:name1), (:name2)'
     g.conn.execute(text(cmd), name1=name, name2=name)
     return redirect('/')
-
-
-@app.route('/login')
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        error = None
-        user = g.conn.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
-
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
-
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
-
-        flash(error)
-
-    return render_template('login.html')
-
-
-@app.route('/register', methods=('GET', 'POST'))
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        error = None
-
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
-
-        if error is None:
-            try:
-                g.conn.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
-                g.conn.commit()
-            except g.conn.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
-                return redirect(url_for("login"))
-
-        flash(error)
-
-    return render_template('register.html')
 
 
 if __name__ == "__main__":
