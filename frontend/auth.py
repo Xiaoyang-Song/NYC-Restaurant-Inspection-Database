@@ -16,7 +16,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-@bp.route('/login')
+@bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -63,7 +63,7 @@ def register():
             except g.conn.IntegrityError:
                 error = f"User {username} is already registered."
             else:
-                return redirect(url_for("login"))
+                return redirect(url_for("auth.login"))
 
         flash(error)
 

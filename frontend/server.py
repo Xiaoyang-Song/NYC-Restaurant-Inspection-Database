@@ -17,6 +17,7 @@ from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
 from icecream import ic
 import auth
+from auth import *
 # from db_utils import get_db_conn
 
 tmpl_dir = os.path.join(os.path.dirname(
