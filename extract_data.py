@@ -52,9 +52,13 @@ if __name__ == '__main__':
     #                      'No Name', 'No Number', 'No Description'])
     location = extract(df, 'Location', 4, ['NULL']*4)
     ic(location)
-    grades = extract(df.head(100), 'Grades', 2, ['NULL']*2)
-    ic(grades)
-    ic(['NULL', 'NULL'] == ['NULL'] * 2)
+    # grades = extract(df.head(100), 'Grades', 2, ['NULL']*2)
+    # ic(grades)
+    # ic(['NULL', 'NULL'] == ['NULL'] * 2)
 
     # Test get_info
     get_info(df, 'Grades', 2, [False, True])
+
+    import names
+    for _ in range(10):
+        ic(names.get_full_name())
