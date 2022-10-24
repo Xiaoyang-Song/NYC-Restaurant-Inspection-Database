@@ -1,1 +1,18 @@
-Example page.
+<html>
+  <style>
+    body {
+      font-size: 15pt;
+      font-family: "Times New Roman";
+    }
+  </style>
+
+  <body>
+    <div>{{data}}</div>
+
+    <div>
+      {% for n in data %}
+      <div>{{n}}</div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

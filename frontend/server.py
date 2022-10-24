@@ -35,22 +35,22 @@ app = Flask(__name__, template_folder=tmpl_dir)
 # For your convenience, we already set it to the class database
 
 # Use the DB credentials you received by e-mail
-DB_USER = 'xs2485'
-DB_PASSWORD = "Sxy20000425"
+# DB_USER = 'xs2485'
+# DB_PASSWORD = "Sxy20000425"
 
-DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
+# DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
-DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
-
-
+# DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
+local_database = "postgresql://postgres:Sxy20000425@localhost/proj1part3"
+engine = create_engine(local_database)
 #
 # This line creates a database engine that knows how to connect to the URI above
 #
-engine = create_engine(DATABASEURI)
+# engine = create_engine(DATABASEURI)
 
 
 # Here we create a test table and insert some values in it
-# engine.execute("""DROP TABLE IF EXISTS test;""")
+engine.execute("""DROP TABLE IF EXISTS test;""")
 # engine.execute("""GRANT USAGE ON SCHEMA public TO xs2485""")
 # cursor = engine.execute("""SELECT *
 # FROM pg_catalog.pg_tables
@@ -62,16 +62,17 @@ engine = create_engine(DATABASEURI)
 #     """GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO xs2485;""")
 # engine.execute("""GRANT ALL PRIVILEGES ON DATABASE w4111 TO xs2485;""")
 
-# engine.execute("""DROP TABLE IF EXISTS test;""")
-# engine.execute("""CREATE TABLE IF NOT EXISTS test(id serial,name text);""")
-# engine.execute(
-#     """INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
+engine.execute("""DROP TABLE IF EXISTS test;""")
+engine.execute("""CREATE TABLE IF NOT EXISTS test(id serial,name text);""")
+engine.execute(
+    """INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
+
 
 
 @app.before_request
 def before_request():
     """
-    This function is run at the beginning of every web request 
+    This function is run at the beginning of every web request
     (every time you enter an address in the web browser).
     We use it to setup a database connection that can be used throughout the request
     The variable g is globally accessible
@@ -126,12 +127,11 @@ def index():
     #
     # example of a database query
     #
-    # cursor = g.conn.execute("SELECT name FROM test")
-    # names = []
-    # for result in cursor:
-    #     names.append(result['name'])  # can also be accessed using result[0]
-    # cursor.close()
-    names = ['hello']
+    cursor = g.conn.execute("SELECT name FROM test")
+    names = []
+    for result in cursor:
+        names.append(result['name'])  # can also be accessed using result[0]
+    cursor.close()
     #
     # Flask uses Jinja templates, which is an extension to HTML where you can
     # pass data to a template and dynamically generate HTML based on the data
@@ -183,7 +183,10 @@ def another():
 
 @app.route('/example')
 def example():
-    return render_template("example.html")
+    ex = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';"
+    cursor = g.conn.execute(ex)
+    data = [row for row in cursor]
+    return render_template("example.html", data=data)
 
 
 # Example of adding new data to the database
