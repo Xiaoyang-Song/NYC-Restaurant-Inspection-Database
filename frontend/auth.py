@@ -5,10 +5,9 @@ from sqlalchemy.pool import NullPool
 from flask import Blueprint, Flask, flash, request, session, render_template, g, redirect, Response, url_for
 from icecream import ic
 import functools
-from db_utils import get_db_conn
 from werkzeug.security import check_password_hash, generate_password_hash
 
-bp = Blueprint('register', __name__, url_prefix='/register')
+bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
 @bp.route('/logout')
@@ -39,7 +38,7 @@ def login():
 
         flash(error)
 
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -68,7 +67,7 @@ def register():
 
         flash(error)
 
-    return render_template('register.html')
+    return render_template('auth/register.html')
 
 
 if __name__ == '__main__':
