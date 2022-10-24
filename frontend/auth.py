@@ -21,6 +21,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        role = request.form['roles']
+        ic(role)
         error = None
         user = g.conn.execute(
             'SELECT * FROM user WHERE username = ?', (username,)
