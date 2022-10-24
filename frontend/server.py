@@ -203,8 +203,56 @@ def add():
 
 @app.route('/login')
 def login():
-    abort(401)
-    this_is_never_executed()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        error = None
+        user = g.conn.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+        ).fetchone()
+
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+        flash(error)
+
+    return render_template('login.html')
+
+
+@app.route('/register', methods=('GET', 'POST'))
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        error = None
+
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'Password is required.'
+
+        if error is None:
+            try:
+                g.conn.execute(
+                    "INSERT INTO user (username, password) VALUES (?, ?)",
+                    (username, generate_password_hash(password)),
+                )
+                g.conn.commit()
+            except g.conn.IntegrityError:
+                error = f"User {username} is already registered."
+            else:
+                return redirect(url_for("login"))
+
+        flash(error)
+
+    return render_template('register.html')
 
 
 if __name__ == "__main__":
