@@ -48,6 +48,8 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        dob = request.form['date of birth']
+        district = request.form['district']
         error = None
 
         if not username:
@@ -58,7 +60,7 @@ def register():
         if error is None:
             try:
                 g.conn.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
+                    "INSERT INTO Users (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
                 g.conn.commit()
