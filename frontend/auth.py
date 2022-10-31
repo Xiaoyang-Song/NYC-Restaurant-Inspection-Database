@@ -22,23 +22,27 @@ def logout():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        userid = request.form['userid']
         password = request.form['password']
         role = request.form['roles']
         ic(role)
         error = None
+
+        g.conn = get_db_conn()
         user = g.conn.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+            'SELECT * FROM user WHERE userid = ?', (userid,)
         ).fetchone()
 
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Incorrect userid.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['userid'] = user['userid']
+            session['password'] = user['password']
+            session['']
             return redirect(url_for('index'))
 
         flash(error)
