@@ -81,5 +81,17 @@ def register():
     return render_template('auth/register.html')
 
 
+@bp.before_app_request
+def load_logged_in_user():
+    userid = session.get('userid')
+    g.conn = get_db_conn()
+    if userid is None:
+        g.user = None
+    else:
+        cmd = 'SELECT * FROM Users WHERE userid = (:id)'
+        ic(cmd)
+        g.user = g.conn.execute(text(cmd), id=userid).fetchone()
+
+
 if __name__ == '__main__':
     ic("registration scripts")
