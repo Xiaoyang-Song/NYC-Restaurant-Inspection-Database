@@ -66,20 +66,10 @@ def register():
             error = 'Password is required.'
 
         if error is None:
-            dob_val = f"'{dob}'" if dob != 'NULL' else 'NULL'
-            dis_val = f"'{district}'" if district != 'NULL' else 'NULL'
-            if district != 'NULL':
-                assert district in LOCATION_SET
-            schema = f"Users(userid, account_name, passcode, dob, district)"
-            try:
-                cmd = f"INSERT INTO {schema} VALUES({userid}, '{account_name}', '{password}', {dob_val}, {dis_val})"
-                cursor = g.conn.execute(cmd)
-                g.conn.commit()
-            except IntegrityError:
-                error = f"User {userid} is already registered."
-            else:
-                return redirect(url_for("auth.login"))
-
+            error = add_user(g.conn, userid, account_name,
+                             password, dob, district)
+        if error is None:
+            return redirect(url_for("auth.login"))
         flash(error)
 
     return render_template('auth/register.html')

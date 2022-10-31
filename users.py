@@ -1,5 +1,6 @@
 from utils import *
 from extract_data import *
+from sqlalchemy.exc import IntegrityError
 
 
 def add_user(connection, uid: int, account_name: str, passcode: str, dob='NULL', district='NULL'):
@@ -11,7 +12,7 @@ def add_user(connection, uid: int, account_name: str, passcode: str, dob='NULL',
     try:
         cmd = f"INSERT INTO {schema} VALUES({uid}, '{account_name}', '{passcode}', {dob_val}, {dis_val})"
         cursor = connection.execute(cmd)
-    except connection.IntegrityError:
+    except IntegrityError:
         error = f"User {uid} is already registered."
         return error
     else:
