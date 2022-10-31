@@ -29,9 +29,12 @@ def login():
         error = None
 
         g.conn = get_db_conn()
-        user = g.conn.execute(
-            'SELECT * FROM user WHERE userid = ?', (userid,)
-        ).fetchone()
+        # user = g.conn.execute(
+        #     'SELECT * FROM Users WHERE userid = ?', f"'{userid}'"
+        # ).fetchone()
+        cmd = 'SELECT * FROM Users WHERE userid = (:id)'
+        ic(cmd)
+        user = g.conn.execute(text(cmd), id=userid).fetchone()
 
         if user is None:
             error = 'Incorrect userid.'
@@ -43,6 +46,7 @@ def login():
             session['userid'] = user['userid']
             session['password'] = user['password']
             session['district'] = user['district']
+            session['account_name'] = user['account_name']
             return redirect(url_for('index'))
 
         flash(error)
