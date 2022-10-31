@@ -42,7 +42,7 @@ def login():
             session.clear()
             session['userid'] = user['userid']
             session['password'] = user['password']
-            session['']
+            session['district'] = user['district']
             return redirect(url_for('index'))
 
         flash(error)

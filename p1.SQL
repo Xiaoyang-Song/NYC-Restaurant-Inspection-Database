@@ -5,10 +5,9 @@
 DROP TABLE IF EXISTS Graded, Grade, Feel, Violate, Violation, Inspect, Inspection, 
            Reviews_Post_Own, Users, Restaurant, Locations;
 CREATE TABLE IF NOT EXISTS Users(
-    userid serial PRIMARY KEY,
+    userid text PRIMARY KEY,
     account_name text NOT NULL,
     passcode text NOT NULL,
-    dob date,
     district text,
     CHECK (
         district IN ('Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island')
@@ -66,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Reviews_Post_Own(
     rev_id serial PRIMARY KEY,
     content text NOT NULL,
     post_time DATE,
-    userid int NOT NULL,
+    userid text NOT NULL,
     rid int NOT NULL,
     FOREIGN KEY (userid) REFERENCES Users ON DELETE CASCADE,
     FOREIGN KEY (rid) REFERENCES Restaurant ON DELETE CASCADE
@@ -75,7 +74,7 @@ CREATE TABLE IF NOT EXISTS Reviews_Post_Own(
 -- Relationship sets: note that when translating to relational schema
 -- We combine Like and Dislike into Feel to make things more efficient
 CREATE TABLE IF NOT EXISTS Feel(
-    userid int NOT NULL,
+    userid text NOT NULL,
     rid int NOT NULL,
     feel text NOT NULL,
     PRIMARY KEY (userid, rid),
