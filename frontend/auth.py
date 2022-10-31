@@ -49,6 +49,7 @@ def login():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+        # Extract arguments from form
         userid = request.form['userid']
         account_name = request.form['account_name']
         password = request.form['password']
@@ -58,13 +59,12 @@ def register():
 
         # Access database
         g.conn = get_db_conn()
-        print(userid)
-        print(dob)
         if not userid:
             error = 'Userid is required.'
         elif not password:
             error = 'Password is required.'
-
+        # Process optional arguments
+        dob = "NULL" if dob == "" else dob
         if error is None:
             error = add_user(g.conn, userid, account_name,
                              password, dob, district)
