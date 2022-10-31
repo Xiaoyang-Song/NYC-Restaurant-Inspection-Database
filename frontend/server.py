@@ -24,6 +24,7 @@ tmpl_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'templates')
 ic(tmpl_dir)
 app = Flask(__name__, template_folder=tmpl_dir)
+app.config.from_mapping(SECRET_KEY='xysong')
 app.register_blueprint(auth.bp)
 
 
@@ -38,20 +39,21 @@ app.register_blueprint(auth.bp)
 # For your convenience, we already set it to the class database
 
 # Use the DB credentials you received by e-mail
-# DB_USER = 'xs2485'
-# DB_PASSWORD = "Sxy20000425"
+DB_USER = 'xs2485'
+DB_PASSWORD = "Sxy20000425"
 
-# DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
+DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
-# DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
-local_database = "postgresql://postgres:Sxy20000425@localhost/proj1part3"
-engine = create_engine(local_database)
+DATABASEURI = "postgresql://"+DB_USER+":" + \
+    DB_PASSWORD+"@"+DB_SERVER+"/proj1part2"
+# local_database = "postgresql://postgres:Sxy20000425@localhost/proj1part3"
+# engine = create_engine(local_database)
 
 # engine = get_db_conn()
 #
 # This line creates a database engine that knows how to connect to the URI above
 #
-# engine = create_engine(DATABASEURI)
+engine = create_engine(DATABASEURI)
 
 
 # Here we create a test table and insert some values in it

@@ -2,10 +2,22 @@
 <h1>{% block title %}Register{% endblock %}</h1>
 {% endblock %} {% block content %}
 <form method="post">
-  <label for="username">Username</label>
-  <input name="username" id="username" required />
+  <label for="userid">User ID*</label>
+  <input name="userid" id="userid" required />
+  <label for="account_name">Account Name</label>
+  <input name="account_name" id="account_name" required />
   <label for="password">Password</label>
   <input type="password" name="password" id="password" required />
+  <label for="dob">Date of Birth</label>
+  <input type="dob" name="dob" id="dob" />
+  <label for="role">District</label>
+  <select name="district" id="district">
+    <option value="Manhattan">Manhattan</option>
+    <option value="Bronx">Bronx</option>
+    <option value="Queens">Queens</option>
+    <option value="Brooklyn">Brooklyn</option>
+    <option value="Staten Island">Staten Island</option>
+  </select>
   <input type="submit" value="Register" />
 </form>
 {% endblock %}

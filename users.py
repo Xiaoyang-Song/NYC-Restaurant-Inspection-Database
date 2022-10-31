@@ -13,8 +13,9 @@ def add_user(connection, uid: int, account_name: str, passcode: str, dob='NULL',
         cursor = connection.execute(cmd)
     except connection.IntegrityError:
         error = f"User {uid} is already registered."
-    else:
         return error
+    else:
+        return None
 
 
 def add_feel(connection, uid: int, rid: list, feel: list):

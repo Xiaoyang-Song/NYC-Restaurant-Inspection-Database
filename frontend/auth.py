@@ -1,11 +1,14 @@
 import os
 from os import abort
 from sqlalchemy import *
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.pool import NullPool
 from flask import Blueprint, Flask, flash, request, session, render_template, g, redirect, Response, url_for
 from icecream import ic
 import functools
 from werkzeug.security import check_password_hash, generate_password_hash
+from db_utils import *
+from users import *
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -46,26 +49,34 @@ def login():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        username = request.form['username']
+        userid = request.form['userid']
+        account_name = request.form['account_name']
         password = request.form['password']
-        dob = request.form['date of birth']
+        dob = request.form['dob']
         district = request.form['district']
         error = None
 
-        if not username:
-            error = 'Username is required.'
+        # Access database
+        g.conn = get_db_conn()
+        print(userid)
+        print(dob)
+        if not userid:
+            error = 'Userid is required.'
         elif not password:
             error = 'Password is required.'
 
         if error is None:
+            dob_val = f"'{dob}'" if dob != 'NULL' else 'NULL'
+            dis_val = f"'{district}'" if district != 'NULL' else 'NULL'
+            if district != 'NULL':
+                assert district in LOCATION_SET
+            schema = f"Users(userid, account_name, passcode, dob, district)"
             try:
-                g.conn.execute(
-                    "INSERT INTO Users (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
+                cmd = f"INSERT INTO {schema} VALUES({userid}, '{account_name}', '{password}', {dob_val}, {dis_val})"
+                cursor = g.conn.execute(cmd)
                 g.conn.commit()
-            except g.conn.IntegrityError:
-                error = f"User {username} is already registered."
+            except IntegrityError:
+                error = f"User {userid} is already registered."
             else:
                 return redirect(url_for("auth.login"))
 
