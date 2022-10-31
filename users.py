@@ -8,10 +8,10 @@ def add_user(connection, uid: int, account_name: str, passcode: str, district='N
     dis_val = f"'{district}'" if district != 'NULL' else 'NULL'
     if district != 'NULL':
         assert district in LOCATION_SET
-    schema = f"Users(userid, account_name, passcode, district)"
+    schema = f"Users(userid, account_name, password, district)"
     try:
         # TODO: change this to avoid SQL injection
-        cmd = f"INSERT INTO {schema} VALUES({uid}, '{account_name}', '{passcode}', {dis_val})"
+        cmd = f"INSERT INTO {schema} VALUES('{uid}', '{account_name}', '{passcode}', {dis_val})"
         cursor = connection.execute(cmd)
     except IntegrityError:
         error = f"User {uid} is already registered."
