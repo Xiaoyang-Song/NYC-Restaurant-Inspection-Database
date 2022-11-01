@@ -12,12 +12,15 @@ Read about it online.
 
 import os
 from os import abort
+from turtle import home
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
 from icecream import ic
 import auth
+import home
 from auth import *
+from home import *
 # from db_utils import get_db_conn
 
 tmpl_dir = os.path.join(os.path.dirname(
@@ -26,6 +29,7 @@ ic(tmpl_dir)
 app = Flask(__name__, template_folder=tmpl_dir)
 app.config.from_mapping(SECRET_KEY='xysong')
 app.register_blueprint(auth.bp)
+app.register_blueprint(home.bp)
 
 
 # XXX: The Database URI should be in the format of:
@@ -173,7 +177,7 @@ def index():
     # render_template looks in the templates/ folder for files.
     # for example, the below file reads template/index.html
     #
-    return render_template("index.html", **context)
+    return render_template("index.html")
 
 #
 # This is an example of a different path.  You can see it at

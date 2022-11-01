@@ -16,6 +16,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/logout')
 def logout():
     session.clear()
+    ic(url_for("index"))
     return redirect(url_for('index'))
 
 
@@ -47,7 +48,8 @@ def login():
             session['password'] = user['password']
             session['district'] = user['district']
             session['account_name'] = user['account_name']
-            return redirect(url_for('index'))
+            ic(url_for("home.homepage"))
+            return redirect(url_for("home.homepage"))
 
         flash(error)
 
