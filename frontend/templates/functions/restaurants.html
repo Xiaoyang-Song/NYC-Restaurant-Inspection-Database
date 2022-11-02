@@ -17,12 +17,14 @@ this is restaurant script
     <th>Restaurant ID</th>
     <th>Name</th>
     <th>Cuisine Description</th>
+    <th>Details</th>
   </tr>
   {%endif%} {% for n in data %}
   <tr>
     <td>{{n[0]}}</td>
     <td>{{n[1]}}</td>
     <td>{{n[2]}}</td>
+    <td><a href="{{ url_for('index') }}">click here for details</a></td>
   </tr>
   {% endfor %}
 </table>
