@@ -13,10 +13,17 @@ from users import *
 bp = Blueprint('functions', __name__, url_prefix='/functions')
 
 
-@bp.route('/restaurants')
+@bp.route('/restaurants', methods=(['POST', 'GET']))
 def restaurants():
     ic(g.user)
-    return render_template('functions/restaurants.html')
+    data = []
+    if request.method == 'POST':
+        district = request.form['district']
+        ic(district)
+        cmd = "SELECT R.rid, R.dba FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
+        data = g.conn.execute(text(cmd), district=district).fetchall()
+        ic(data)
+    return render_template('functions/restaurants.html', data=data)
 
 
 @bp.before_app_request
