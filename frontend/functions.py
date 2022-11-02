@@ -20,7 +20,7 @@ def restaurants():
     if request.method == 'POST':
         district = request.form['district']
         ic(district)
-        cmd = "SELECT R.rid, R.dba FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
+        cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
         data = g.conn.execute(text(cmd), district=district).fetchall()
         ic(data)
     return render_template('functions/restaurants.html', data=data)

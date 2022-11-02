@@ -11,8 +11,23 @@ this is restaurant script
   </select>
   <input type="submit" value="Search" />
 </form>
-<div>
-  {% for n in data %}
-  <div>{{n}}</div>
+<table>
+  {%if data%}
+  <tr>
+    <th>Restaurant ID</th>
+    <th>Name</th>
+    <th>Cuisine Description</th>
+  </tr>
+  {%endif%} {% for n in data %}
+  <tr>
+    <td>{{n[0]}}</td>
+    <td>{{n[1]}}</td>
+    <td>{{n[2]}}</td>
+  </tr>
   {% endfor %}
-</div>
+</table>
+<!-- <div> 
+  {% for n in data %}
+  <div>{{n[0]}}</div>
+  {% endfor %}
+</div> -->
