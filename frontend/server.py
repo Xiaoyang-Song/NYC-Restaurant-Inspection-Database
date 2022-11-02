@@ -21,6 +21,8 @@ import auth
 import home
 from auth import *
 from home import *
+import functions
+from functions import *
 # from db_utils import get_db_conn
 
 tmpl_dir = os.path.join(os.path.dirname(
@@ -30,7 +32,7 @@ app = Flask(__name__, template_folder=tmpl_dir)
 app.config.from_mapping(SECRET_KEY='xysong')
 app.register_blueprint(auth.bp)
 app.register_blueprint(home.bp)
-
+app.register_blueprint(functions.bp)
 
 # XXX: The Database URI should be in the format of:
 #
