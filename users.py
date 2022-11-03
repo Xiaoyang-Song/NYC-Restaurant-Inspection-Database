@@ -3,7 +3,7 @@ from extract_data import *
 from sqlalchemy.exc import IntegrityError
 
 
-def add_user(connection, uid: int, account_name: str, passcode: str, district='NULL'):
+def add_user(connection, uid, account_name: str, passcode: str, district='NULL'):
     # dob_val = f"'{dob}'" if dob != 'NULL' else 'NULL' # not need anymore
     dis_val = f"'{district}'" if district != 'NULL' else 'NULL'
     if district != 'NULL':
@@ -20,11 +20,11 @@ def add_user(connection, uid: int, account_name: str, passcode: str, district='N
         return None
 
 
-def add_feel(connection, uid: int, rid: list, feel: list):
+def add_feel(connection, uid, rid: list, feel: list):
     assert len(rid) == len(feel)
     for id, fl in zip(rid, feel):
         assert fl in FEEL_SET
-        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES({uid}, {id},'{fl}')"
+        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES('{uid}', {id},'{fl}')"
         cursor = connection.execute(cmd)
 
 
