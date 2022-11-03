@@ -45,7 +45,8 @@ def page(rid):
         add_reviews(g.conn, userid, rid, reviews)
     # Get reviews
     rev = []
-
+    cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
+    rev = g.conn.execute(text(cmd), id=rid).fetchall()
     return render_template('functions/page.html', info=info, rev=rev)
 
 
