@@ -22,11 +22,15 @@
     <div>Zipcode: {{info[7]}}</div>
   </div>
 </div>
+<form method="post">
+  <input type="submit" name='likebutton' value="Like" />
+  <input type="submit" name='dislikebutton' value="Dislike" />
+</form>
 <h3>Comments</h3>
 <form method="post">
   <label for="comment">Post your comments here!</label>
   <input name="comment" id="comment" required />
-  <input type="submit" value="Post" />
+  <input type="submit" name='post' value="Post" />
 </form>
 <table>
   {%if rev%}

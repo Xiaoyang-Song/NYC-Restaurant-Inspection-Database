@@ -38,11 +38,17 @@ def page(rid):
     # ic(info)
     userid = session.get('userid')
     ic(userid)
-
+    # Handle request
     if request.method == 'POST':
-        reviews = request.form['comment']
-        # ic(reviews)
-        add_reviews(g.conn, userid, rid, reviews)
+        if request.form.get('post') != None:
+            reviews = request.form['comment']
+            # ic(reviews)
+            add_reviews(g.conn, userid, rid, reviews)
+        elif request.form.get('likebutton') != None:
+            ic("like")
+        else:
+            assert request.form.get('dislikebutton') != None
+            ic("dislike")
     # Get reviews
     rev = []
     cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
