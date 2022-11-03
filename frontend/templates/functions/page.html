@@ -27,7 +27,8 @@
   <input type="submit" name="dislikebutton" value="Dislike" />
 </form>
 <div>
-  {%if feel%} {%if feel[0] == 'like'%} You liked this restaurant! {%else%} You hated this restaurant! {%endif%}{%endif%}
+  {%if feel%} {%if feel[0][0] == 'Like'%} You liked this restaurant! {%else%} You hated this restaurant!
+  {%endif%}{%endif%}
 </div>
 <h3>Comments</h3>
 <form method="post">
