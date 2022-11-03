@@ -1,0 +1,32 @@
+<h1>{% block title %}Welcome to your homepage {% endblock %}</h1>
+
+<div>
+    <h3>User Profile</h3>
+    <div>User id: {{user_info[0]}}</div>
+    <div>Name: {{user_info[1]}}</div>
+    <div>District: {{user_info[2]}}</div>
+</div>
+
+<table>
+  {%if like%}
+  <tr>
+    <th>Restaurant id</th>
+  </tr>
+  {%endif%} {% for n in like %}
+  <tr>
+    <td>{{n[1]}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<table>
+  {%if dislike%}
+  <tr>
+    <th>Restaurant id</th>
+  </tr>
+  {%endif%} {% for n in dislike %}
+  <tr>
+    <td>{{n[1]}}</td>
+  </tr>
+  {% endfor %}
+</table>
