@@ -26,6 +26,12 @@ def restaurants():
     return render_template('functions/restaurants.html', data=data)
 
 
+@bp.route('/page', methods=(['POST', 'GET']))
+def page():
+    info = ['Hello']
+    return render_template('functions/page.html', info=info)
+
+
 @bp.before_app_request
 def load_session():
     ic("Loading user session")
