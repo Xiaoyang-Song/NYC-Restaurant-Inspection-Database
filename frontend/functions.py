@@ -35,8 +35,18 @@ def page(rid):
     cmd = "SELECT * FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid WHERE R.rid = (:id)"
     # ic(cmd)
     info = g.conn.execute(text(cmd), id=rid).fetchone()
-    ic(info)
-    return render_template('functions/page.html', info=info)
+    # ic(info)
+    userid = session.get('userid')
+    ic(userid)
+
+    if request.method == 'POST':
+        reviews = request.form['comment']
+        # ic(reviews)
+        add_reviews(g.conn, userid, rid, reviews)
+    # Get reviews
+    rev = []
+
+    return render_template('functions/page.html', info=info, rev=rev)
 
 
 @bp.before_app_request
