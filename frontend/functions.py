@@ -26,9 +26,9 @@ def restaurants():
     return render_template('functions/restaurants.html', data=data)
 
 
-@bp.route('/page', methods=(['POST', 'GET']))
-def page():
-    info = ['Hello']
+@bp.route('/page/<uid>', methods=(['POST', 'GET']))
+def page(uid):
+    info = [uid]
     return render_template('functions/page.html', info=info)
 
 
