@@ -1,2 +1,27 @@
-this is restaurant page {{info}}
-<h1>{% block title %}{{info['dba']}}{% endblock %}</h1>
+<!-- this is restaurant page {{info}} -->
+<!-- TODO: Change this later -->
+<style>
+  .row {
+    display: flex;
+  }
+  .column {
+    flex: 50%;
+  }
+</style>
+<h1>{% block title %}{{info[1]}}{% endblock %}</h1>
+<div class="row">
+  <div class="column">
+    <h3>Information</h3>
+    <div>Restaurant id: {{info[0]}}</div>
+    <div>Phone Number: {{info[2]}}</div>
+    <div>Cuisine Description: {{info[3]}}</div>
+  </div>
+  <div class="column">
+    <h3>Location</h3>
+    <div>Address: {{info[-1]}}, {{info[-2]}}, {{info[-4]}}</div>
+    <div>Zipcode: {{info[7]}}</div>
+  </div>
+</div>
+
+<h3>Comments</h3>
+to be done

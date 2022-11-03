@@ -9,6 +9,7 @@ import functools
 from werkzeug.security import check_password_hash, generate_password_hash
 from db_utils import *
 from users import *
+from utils import *
 
 bp = Blueprint('functions', __name__, url_prefix='/functions')
 
@@ -29,11 +30,12 @@ def restaurants():
 @bp.route('/page/<rid>', methods=(['POST', 'GET']))
 def page(rid):
     # uid is guaranteed to exist due to design
-    info = {}
+    info = []
     # Extract restaurant information
-    cmd = 'SELECT * FROM Restaurant WHERE rid = (:id)'
+    cmd = "SELECT * FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid WHERE R.rid = (:id)"
     # ic(cmd)
-    r = g.conn.execute(text(cmd), id=rid).fetchone()
+    info = g.conn.execute(text(cmd), id=rid).fetchone()
+    ic(info)
     return render_template('functions/page.html', info=info)
 
 

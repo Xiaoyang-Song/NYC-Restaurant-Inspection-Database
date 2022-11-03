@@ -21,11 +21,13 @@ GRADE_SET = ['A', 'B', 'C', 'P', 'N', 'Z', 'NULL']
 FEEL_SET = ['Like', 'Dislike']
 
 GRADE_DICT = {}
+# Used for Web App Dev
 
 
 def get_time_signature():
     # return strftime("%m-%Y-%d-%H:%M:%S", gmtime()) # For specific time
     return strftime("%m/%d/%y", gmtime())
+
 
 
 class TOKEN(Enum):
