@@ -26,9 +26,14 @@ def restaurants():
     return render_template('functions/restaurants.html', data=data)
 
 
-@bp.route('/page/<uid>', methods=(['POST', 'GET']))
-def page(uid):
-    info = {'dba': 'Hello World'}
+@bp.route('/page/<rid>', methods=(['POST', 'GET']))
+def page(rid):
+    # uid is guaranteed to exist due to design
+    info = {}
+    # Extract restaurant information
+    cmd = 'SELECT * FROM Restaurant WHERE rid = (:id)'
+    # ic(cmd)
+    r = g.conn.execute(text(cmd), id=rid).fetchone()
     return render_template('functions/page.html', info=info)
 
 
