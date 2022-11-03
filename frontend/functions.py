@@ -46,14 +46,20 @@ def page(rid):
             add_reviews(g.conn, userid, rid, reviews)
         elif request.form.get('likebutton') != None:
             ic("like")
+            add_feel(g.conn, userid, [rid], ['Like'])
         else:
             assert request.form.get('dislikebutton') != None
             ic("dislike")
+            add_feel(g.conn, userid, [rid], ['Dislike'])
+    # Get Like & Dislike
+    cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
+    feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
+    ic(feel)
     # Get reviews
     rev = []
     cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
     rev = g.conn.execute(text(cmd), id=rid).fetchall()
-    return render_template('functions/page.html', info=info, rev=rev)
+    return render_template('functions/page.html', info=info, rev=rev, feel=feel)
 
 
 @bp.before_app_request
