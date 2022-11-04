@@ -26,6 +26,8 @@ def restaurants():
         ic(data)
     return render_template('functions/restaurants.html', data=data)
 
+# TODO: separate this to make it more efficient
+
 
 @bp.route('/page/<rid>', methods=(['POST', 'GET']))
 def page(rid):
@@ -81,6 +83,7 @@ def page(rid):
             else:
                 assert state == FL.LIKED
                 error = "Cancel your like first before hate!"
+
     # Get Like & Dislike after update
     cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
     feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
