@@ -23,9 +23,18 @@
     <div>Zipcode: {{info[7]}}</div>
   </div>
 </div>
+<!-- Handle button color -->
 <form method="post">
+  {%if state.value == 2%}
+  <input type="submit" name="likebutton" value="Like" />
+  <input type="submit" name="dislikebutton" value="Dislike" />
+  {%elif state.value == 0%}
   <input type="submit" name="likebutton" value="Like" style="background-color: #ffbf00" />
   <input type="submit" name="dislikebutton" value="Dislike" />
+  {%else%}
+  <input type="submit" name="likebutton" value="Like" />
+  <input type="submit" name="dislikebutton" value="Dislike" style="background-color: #ffbf00" />
+  {%endif%}
 </form>
 <div>
   {%if feel%} {%if feel[0][0] == 'Like'%} You liked this restaurant! {%else%} You hated this restaurant!

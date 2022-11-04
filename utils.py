@@ -41,3 +41,4 @@ if __name__ == '__main__':
     ic(R_to_col)
     ic(TOKEN.NA)
     ic(get_time_signature())
+    ic(FL.IDLE.value == 2)
