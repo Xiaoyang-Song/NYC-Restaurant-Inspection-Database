@@ -91,7 +91,7 @@ def load_logged_in_user():
         g.user = None
     else:
         cmd = 'SELECT * FROM Users WHERE userid = (:id)'
-        ic(cmd)
+        # ic(cmd)
         g.user = g.conn.execute(text(cmd), id=userid).fetchone()
 
 

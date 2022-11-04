@@ -16,14 +16,14 @@ bp = Blueprint('functions', __name__, url_prefix='/functions')
 
 @bp.route('/restaurants', methods=(['POST', 'GET']))
 def restaurants():
-    ic(g.user)
+    # ic(g.user)
     data = []
     if request.method == 'POST':
         district = request.form['district']
-        ic(district)
+        # ic(district)
         cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
         data = g.conn.execute(text(cmd), district=district).fetchall()
-        ic(data)
+        # ic(data)
     return render_template('functions/restaurants.html', data=data)
 
 # TODO: separate this to make it more efficient
@@ -31,6 +31,7 @@ def restaurants():
 
 @bp.route('/page/<rid>', methods=(['POST', 'GET']))
 def page(rid):
+    ic(request.method)
     # uid is guaranteed to exist due to design
     info = []
     # Extract restaurant information
@@ -44,7 +45,7 @@ def page(rid):
     # Fetch current state of feeling
     cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
     feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    ic(feel)
+    # ic(feel)
     state = 0
     if len(feel) == 0:
         state = FL.IDLE
@@ -87,7 +88,7 @@ def page(rid):
     # Get Like & Dislike after update
     cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
     feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    ic(feel)
+    # ic(feel)
     # Get reviews
     rev = []
     cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
@@ -99,11 +100,11 @@ def page(rid):
     # like
     cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Like'"
     num_like = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    ic(num_like)
+    # ic(num_like)
     # dislike
     cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Dislike'"
     num_hate = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    ic(num_hate)
+    # ic(num_hate)
     stats['num_like'] = num_like[0][0]
     stats['num_hate'] = num_hate[0][0]
     # Error handling
@@ -115,13 +116,13 @@ def page(rid):
 
 @bp.before_app_request
 def load_session():
-    ic("Loading user session")
+    # ic("Loading user session")
     g.conn = get_db_conn()
     userid = session.get('userid')
-    ic(userid)
+    # ic(userid)
     if userid is None:
         g.user = None
     else:
         cmd = 'SELECT * FROM Users WHERE userid = (:id)'
-        ic(cmd)
+        # ic(cmd)
         g.user = g.conn.execute(text(cmd), id=userid).fetchone()

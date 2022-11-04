@@ -13,6 +13,7 @@ from utils import *
 
 bp = Blueprint('userpage', __name__, url_prefix='/userpage')
 
+
 @bp.route('/userinfo', methods=(['POST', 'GET']))
 def userinfo():
     # uid is guaranteed to exist due to design
@@ -35,13 +36,13 @@ def userinfo():
 
 @bp.before_app_request
 def load_session():
-    ic("Loading user session")
+    # ic("Loading user session")
     g.conn = get_db_conn()
     userid = session.get('userid')
-    ic(userid)
+    # ic(userid)
     if userid is None:
         g.user = None
     else:
         cmd = 'SELECT * FROM Users WHERE userid = (:id)'
-        ic(cmd)
+        # ic(cmd)
         g.user = g.conn.execute(text(cmd), id=userid).fetchone()
