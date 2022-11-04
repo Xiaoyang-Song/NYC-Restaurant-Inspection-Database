@@ -1,5 +1,6 @@
 <!-- this is restaurant page {{info}} -->
 <!-- TODO: Change this later -->
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 <style>
   .row {
     display: flex;
@@ -30,6 +31,12 @@
   {%if feel%} {%if feel[0][0] == 'Like'%} You liked this restaurant! {%else%} You hated this restaurant!
   {%endif%}{%endif%}
 </div>
+<section class="content">
+  <header>{% block header %}{% endblock %}</header>
+  {% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+  {% endfor %} {% block content %}{% endblock %}
+</section>
 <h3>Comments</h3>
 <form method="post">
   <label for="comment">Post your comments here!</label>
