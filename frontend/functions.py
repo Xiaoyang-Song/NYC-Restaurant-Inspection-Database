@@ -75,6 +75,7 @@ def page(rid):
             if state == FL.IDLE:
                 # ic("dislike")
                 add_feel(g.conn, userid, [rid], ['Dislike'])
+                state = FL.DISLIKED
             elif state == FL.DISLIKED:
                 del_feel(g.conn, userid, rid)
                 state = FL.IDLE
