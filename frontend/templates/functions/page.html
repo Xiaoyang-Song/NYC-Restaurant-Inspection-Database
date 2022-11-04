@@ -46,6 +46,9 @@
   <div class="flash">{{ message }}</div>
   {% endfor %} {% block content %}{% endblock %}
 </section>
+<h3>Stats</h3>
+<div> {{stats['num_like']}} users like this restaurant</div>
+<div>{{stats['num_hate']}} users hate this restaurant</div>
 <h3>Comments</h3>
 <form method="post">
   <label for="comment">Post your comments here!</label>

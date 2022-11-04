@@ -52,12 +52,11 @@ def page(rid):
         assert feel[0][0] == 'Dislike'
         state = FL.DISLIKED
 
-    # Handle request: like a state machine
+    # Handle request using state machine
     error = None
     if request.method == 'POST':
         if request.form.get('post') != None:
             reviews = request.form['comment']
-            # ic(reviews)
             # TODO: add error handler here by modifying add_reviews function
             add_reviews(g.conn, userid, rid, reviews)
         elif request.form.get('likebutton') != None:
@@ -91,11 +90,24 @@ def page(rid):
     cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
     rev = g.conn.execute(text(cmd), id=rid).fetchall()
 
+    # Display stats
+    stats = {}
+    # like & dislike stats
+    # like
+    cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Like'"
+    num_like = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
+    ic(num_like)
+    # dislike
+    cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Dislike'"
+    num_hate = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
+    ic(num_hate)
+    stats['num_like'] = num_like[0][0]
+    stats['num_hate'] = num_hate[0][0]
     # Error handling
     if error is not None:
         flash(error)
 
-    return render_template('functions/page.html', info=info, rev=rev, feel=feel, state=state)
+    return render_template('functions/page.html', info=info, rev=rev, feel=feel, state=state, stats=stats)
 
 
 @bp.before_app_request
