@@ -13,6 +13,9 @@ from utils import *
 
 bp = Blueprint('functions', __name__, url_prefix='/functions')
 
+# Define global variables for efficiency
+page_stats = {}
+
 
 @bp.route('/restaurants', methods=(['POST', 'GET']))
 def restaurants():
@@ -31,31 +34,36 @@ def restaurants():
 
 @bp.route('/page/<rid>', methods=(['POST', 'GET']))
 def page(rid):
-    ic(request.method)
-    # uid is guaranteed to exist due to design
-    info = []
-    # Extract restaurant information
-    cmd = "SELECT * FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid WHERE R.rid = (:id)"
-    # ic(cmd)
-    info = g.conn.execute(text(cmd), id=rid).fetchone()
-    # ic(info)
     userid = session.get('userid')
-    # ic(userid)
+    if request.method == 'GET':
+        page_stats.clear()
+        # ic(request.method)
+        # uid is guaranteed to exist due to design
+        info = []
+        # Extract restaurant information
+        cmd = "SELECT * FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid WHERE R.rid = (:id)"
+        # ic(cmd)
+        info = g.conn.execute(text(cmd), id=rid).fetchone()
+        # ic(info)
+        # userid = session.get('userid')
+        page_stats['info'] = info
 
-    # Fetch current state of feeling
-    cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
-    feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    # ic(feel)
-    state = 0
-    if len(feel) == 0:
-        state = FL.IDLE
-    elif feel[0][0] == 'Like':
-        state = FL.LIKED
-    else:
-        assert feel[0][0] == 'Dislike'
-        state = FL.DISLIKED
+        # Fetch current state of feeling
+        cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
+        feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
+        # ic(feel)
+        state = None
+        if len(feel) == 0:
+            state = FL.IDLE
+        elif feel[0][0] == 'Like':
+            state = FL.LIKED
+        else:
+            assert feel[0][0] == 'Dislike'
+            state = FL.DISLIKED
+        page_stats['state'] = state
 
-    # Handle request using state machine
+    state = page_stats['state']
+    # Handle like/dislike request using state machine
     error = None
     if request.method == 'POST':
         if request.form.get('post') != None:
@@ -84,34 +92,47 @@ def page(rid):
             else:
                 assert state == FL.LIKED
                 error = "Cancel your like first before hate!"
+    page_stats['state'] = state
 
-    # Get Like & Dislike after update
-    cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
-    feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    # ic(feel)
-    # Get reviews
-    rev = []
-    cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
-    rev = g.conn.execute(text(cmd), id=rid).fetchall()
+    if request.method == 'GET' or \
+            (request.method == 'POST' and request.form.get('post') is not None):
+        # Get reviews
+        rev = []
+        cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
+        rev = g.conn.execute(text(cmd), id=rid).fetchall()
+        page_stats['rev'] = rev
 
-    # Display stats
-    stats = {}
-    # like & dislike stats
-    # like
-    cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Like'"
-    num_like = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    # ic(num_like)
-    # dislike
-    cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Dislike'"
-    num_hate = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
-    # ic(num_hate)
-    stats['num_like'] = num_like[0][0]
-    stats['num_hate'] = num_hate[0][0]
+    if request.method == 'GET' or \
+            (request.method == 'POST' and request.form.get('post') is None):
+        # Get Like & Dislike after update
+        cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
+        feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
+        # Update cache
+        page_stats['feel'] = feel
+        # Display stats
+        stats = {}
+        # like & dislike stats
+        # like
+        cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Like'"
+        num_like = g.conn.execute(
+            text(cmd), uid=userid, rid=rid).fetchall()
+        # ic(num_like)
+        # dislike
+        cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Dislike'"
+        num_hate = g.conn.execute(
+            text(cmd), uid=userid, rid=rid).fetchall()
+        # ic(num_hate)
+        stats['num_like'] = num_like[0][0]
+        stats['num_hate'] = num_hate[0][0]
+        # Update cache
+        page_stats['stats'] = stats
     # Error handling
     if error is not None:
         flash(error)
 
-    return render_template('functions/page.html', info=info, rev=rev, feel=feel, state=state, stats=stats)
+    return render_template('functions/page.html', info=page_stats['info'], rev=page_stats['rev'],
+                           feel=page_stats['feel'], state=page_stats['state'],
+                           stats=page_stats['stats'])
 
 
 @bp.before_app_request
