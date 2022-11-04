@@ -1,6 +1,7 @@
 from utils import *
 from extract_data import *
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import *
 
 
 def add_user(connection, uid, account_name: str, passcode: str, district='NULL'):
@@ -33,6 +34,11 @@ def add_reviews(connection, uid: int, rid: int, content: str):
     cmd = f"INSERT INTO Reviews_Post_Own(content, post_time, userid, rid) "\
           f"VALUES('{content}', '{get_time_signature()}', '{uid}', {rid})"
     cursor = connection.execute(cmd)
+
+
+def del_feel(connection, uid, rid):
+    cmd = "DELETE FROM Feel WHERE userid=(:uid) AND rid=(:rid)"
+    connection.execute(text(cmd), uid=uid, rid=rid)
 
 
 if __name__ == '__main__':

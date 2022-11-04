@@ -38,6 +38,19 @@ def page(rid):
     # ic(info)
     userid = session.get('userid')
     ic(userid)
+    # Fetch current state of feeling
+    cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
+    feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
+    ic(feel)
+    state = 0
+    if len(feel) == 0:
+        state = FL.IDLE
+    elif feel[0][0] == 'Like':
+        state = FL.LIKED
+    else:
+        assert feel[0][0] == 'Dislike'
+        state = FL.DISLIKED
+
     # Handle request
     if request.method == 'POST':
         if request.form.get('post') != None:
@@ -45,13 +58,16 @@ def page(rid):
             # ic(reviews)
             add_reviews(g.conn, userid, rid, reviews)
         elif request.form.get('likebutton') != None:
-            ic("like")
-            add_feel(g.conn, userid, [rid], ['Like'])
+            if state == FL.IDLE:
+                add_feel(g.conn, userid, [rid], ['Like'])
+            elif state == FL.LIKED:
+                del_feel(g.conn, userid, [rid])
         else:
             assert request.form.get('dislikebutton') != None
             ic("dislike")
             add_feel(g.conn, userid, [rid], ['Dislike'])
-    # Get Like & Dislike
+
+    # Get Like & Dislike after update
     cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
     feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
     ic(feel)
@@ -59,7 +75,7 @@ def page(rid):
     rev = []
     cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
     rev = g.conn.execute(text(cmd), id=rid).fetchall()
-    return render_template('functions/page.html', info=info, rev=rev, feel=feel)
+    return render_template('functions/page.html', info=info, rev=rev, feel=feel, state=state)
 
 
 @bp.before_app_request

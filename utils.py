@@ -24,10 +24,13 @@ GRADE_DICT = {}
 # Used for Web App Dev
 
 
+class FL(Enum):
+    LIKED, DISLIKED, IDLE = np.arange(3)
+
+
 def get_time_signature():
     # return strftime("%m-%Y-%d-%H:%M:%S", gmtime()) # For specific time
     return strftime("%m/%d/%y", gmtime())
-
 
 
 class TOKEN(Enum):
