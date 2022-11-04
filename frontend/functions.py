@@ -37,7 +37,8 @@ def page(rid):
     info = g.conn.execute(text(cmd), id=rid).fetchone()
     # ic(info)
     userid = session.get('userid')
-    ic(userid)
+    # ic(userid)
+
     # Fetch current state of feeling
     cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
     feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
@@ -51,22 +52,35 @@ def page(rid):
         assert feel[0][0] == 'Dislike'
         state = FL.DISLIKED
 
-    # Handle request
+    # Handle request: like a state machine
+    error = None
     if request.method == 'POST':
         if request.form.get('post') != None:
             reviews = request.form['comment']
             # ic(reviews)
+            # TODO: add error handler here by modifying add_reviews function
             add_reviews(g.conn, userid, rid, reviews)
         elif request.form.get('likebutton') != None:
             if state == FL.IDLE:
                 add_feel(g.conn, userid, [rid], ['Like'])
+                state = FL.LIKED
             elif state == FL.LIKED:
-                del_feel(g.conn, userid, [rid])
+                del_feel(g.conn, userid, rid)
+                state = FL.IDLE
+            else:
+                assert state == FL.DISLIKED
+                error = "Cancel your hate first before like!"
         else:
             assert request.form.get('dislikebutton') != None
-            ic("dislike")
-            add_feel(g.conn, userid, [rid], ['Dislike'])
-
+            if state == FL.IDLE:
+                # ic("dislike")
+                add_feel(g.conn, userid, [rid], ['Dislike'])
+            elif state == FL.DISLIKED:
+                del_feel(g.conn, userid, rid)
+                state = FL.IDLE
+            else:
+                assert state == FL.LIKED
+                error = "Cancel your like first before hate!"
     # Get Like & Dislike after update
     cmd = "SELECT feel FROM FEEL WHERE userid=(:uid) AND rid=(:rid)"
     feel = g.conn.execute(text(cmd), uid=userid, rid=rid).fetchall()
@@ -75,6 +89,11 @@ def page(rid):
     rev = []
     cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
     rev = g.conn.execute(text(cmd), id=rid).fetchall()
+
+    # Error handling
+    if error is not None:
+        flash(error)
+
     return render_template('functions/page.html', info=info, rev=rev, feel=feel, state=state)
 
 
