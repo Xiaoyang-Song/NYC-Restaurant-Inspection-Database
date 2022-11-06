@@ -62,12 +62,18 @@
     <th>User</th>
     <th>Comments</th>
     <th>Time</th>
+    <th>Action</th>
   </tr>
   {%endif%} {% for n in rev %}
   <tr>
     <td>{{n[0]}}</td>
     <td>{{n[1]}}</td>
     <td>{{n[2]}}</td>
+    <td>
+      {%if n[0] == userid%}
+      <input type="submit" name="delrev" value="delete" />
+      {%endif%}
+    </td>
   </tr>
   {% endfor %}
 </table>

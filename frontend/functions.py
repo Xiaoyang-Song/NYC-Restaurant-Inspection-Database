@@ -132,7 +132,7 @@ def page(rid):
 
     return render_template('functions/page.html', info=page_stats['info'], rev=page_stats['rev'],
                            feel=page_stats['feel'], state=page_stats['state'],
-                           stats=page_stats['stats'])
+                           stats=page_stats['stats'], userid=userid)
 
 
 @bp.before_app_request
