@@ -64,12 +64,19 @@ def page(rid):
 
     state = page_stats['state']
     # Handle like/dislike request using state machine
+    update_comment = False
     error = None
     if request.method == 'POST':
         if request.form.get('post') != None:
             reviews = request.form['comment']
             # TODO: add error handler here by modifying add_reviews function
             add_reviews(g.conn, userid, rid, reviews)
+            update_comment = True
+        elif request.form.get('delrev') != None:
+            revid = request.form['delrev'].partition('#')[-1]
+            ic(revid)
+            del_reviews(g.conn, revid)
+            update_comment = True
         elif request.form.get('likebutton') != None:
             if state == FL.IDLE:
                 add_feel(g.conn, userid, [rid], ['Like'])
@@ -94,11 +101,10 @@ def page(rid):
                 error = "Cancel your like first before hate!"
     page_stats['state'] = state
 
-    if request.method == 'GET' or \
-            (request.method == 'POST' and request.form.get('post') is not None):
+    if request.method == 'GET' or update_comment:
         # Get reviews
         rev = []
-        cmd = "SELECT userid, content, post_time FROM Reviews_Post_Own WHERE rid = (:id)"
+        cmd = "SELECT userid, content, post_time, rev_id FROM Reviews_Post_Own WHERE rid = (:id)"
         rev = g.conn.execute(text(cmd), id=rid).fetchall()
         page_stats['rev'] = rev
 

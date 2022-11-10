@@ -59,6 +59,7 @@
 <table>
   {%if rev%}
   <tr>
+    <th>Reviews ID</th>
     <th>User</th>
     <th>Comments</th>
     <th>Time</th>
@@ -66,12 +67,15 @@
   </tr>
   {%endif%} {% for n in rev %}
   <tr>
+    <td>{{n[-1]}}</td>
     <td>{{n[0]}}</td>
     <td>{{n[1]}}</td>
     <td>{{n[2]}}</td>
     <td>
       {%if n[0] == userid%}
-      <input type="submit" name="delrev" value="delete" />
+      <form method="post">
+        <input type="submit" name="delrev" value="{{ 'Delete Comment #%s' % n[-1] }}" />
+      </form>
       {%endif%}
     </td>
   </tr>

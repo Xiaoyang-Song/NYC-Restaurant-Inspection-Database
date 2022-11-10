@@ -36,6 +36,11 @@ def add_reviews(connection, uid: int, rid: int, content: str):
     cursor = connection.execute(cmd)
 
 
+def del_reviews(connection, revid):
+    cmd = "DELETE FROM Reviews_POST_OWN WHERE rev_id=(:revid)"
+    connection.execute(text(cmd), revid=revid)
+
+
 def del_feel(connection, uid, rid):
     cmd = "DELETE FROM Feel WHERE userid=(:uid) AND rid=(:rid)"
     connection.execute(text(cmd), uid=uid, rid=rid)
