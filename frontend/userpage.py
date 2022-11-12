@@ -10,6 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from db_utils import *
 from users import *
 from utils import *
+from functions import *
 
 bp = Blueprint('userpage', __name__, url_prefix='/userpage')
 
@@ -25,10 +26,10 @@ def userinfo():
     cmd = "SELECT userid, account_name, district FROM Users AS U WHERE U.userid = (:id)"
     user_info = g.conn.execute(text(cmd), id=userid).fetchone()
     # Extract current user's like list
-    cmd = "SELECT U.userid, F.rid FROM Users AS U JOIN Feel AS F on U.userid=F.userid WHERE U.userid = (:id) AND feel='Like' "
+    cmd = "SELECT U.userid, F.rid, R.DBA FROM Users AS U, Feel AS F, Restaurant AS R WHERE U.userid=F.userid AND U.userid = (:id) AND feel='Like' AND R.rid=F.rid"
     like = g.conn.execute(text(cmd), id=userid).fetchall()
     # Extract current user's dislike list
-    cmd = "SELECT U.userid, F.rid FROM Users AS U JOIN Feel AS F on U.userid=F.userid WHERE U.userid = (:id) AND feel='Dislike' "
+    cmd = "SELECT U.userid, F.rid, R.DBA FROM Users AS U, Feel AS F, Restaurant AS R WHERE U.userid=F.userid AND U.userid = (:id) AND feel='Dislike' AND R.rid=F.rid"
     dislike = g.conn.execute(text(cmd), id=userid).fetchall()
     # ic(info)
     return render_template('userpage/userinfo.html', like=like, dislike=dislike, user_info=user_info)

@@ -7,26 +7,32 @@
     <div>District: {{user_info[2]}}</div>
 </div>
 
+<h3>Liked Restaurant:</h3>
 <table>
   {%if like%}
   <tr>
     <th>Restaurant id</th>
+    <th>Restaurant Name</th>
   </tr>
   {%endif%} {% for n in like %}
   <tr>
     <td>{{n[1]}}</td>
+    <td><a href="{{ url_for('functions.page', rid=n[1]) }}">{{n[2]}}</a></td>
   </tr>
   {% endfor %}
 </table>
 
+<h3>Disliked Restaurant:</h3>
 <table>
   {%if dislike%}
   <tr>
     <th>Restaurant id</th>
+    <th>Restaurant Name</th>
   </tr>
   {%endif%} {% for n in dislike %}
   <tr>
     <td>{{n[1]}}</td>
+    <td><a href="{{ url_for('functions.page', rid=n[1]) }}">{{n[2]}}</a></td>
   </tr>
   {% endfor %}
 </table>

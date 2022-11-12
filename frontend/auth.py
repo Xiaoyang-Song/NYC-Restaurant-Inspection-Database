@@ -9,6 +9,7 @@ import functools
 from werkzeug.security import check_password_hash, generate_password_hash
 from db_utils import *
 from users import *
+from datetime import timedelta
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -48,6 +49,7 @@ def login():
             session['password'] = user['password']
             session['district'] = user['district']
             session['account_name'] = user['account_name']
+            session.permanent = False
             ic(url_for("home.homepage"))
             return redirect(url_for("home.homepage"))
 
