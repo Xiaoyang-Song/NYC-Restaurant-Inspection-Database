@@ -1,0 +1,153 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    
+    <body>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">NYC RestaurantDB</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/home/homepage">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/functions/restaurants">Restaurant</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/functions/violations">Inspections and Violations</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown dropstart">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                User
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/userpage/userinfo">My Page</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+        <!-- place a hidden field somewhere in your template to "hold" your data -->
+        <div class="container bm-5 tm-5">
+            <h2> Inspection Statistics</h2>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <canvas id="InspectTypeChart" width="400" height="400"></canvas>
+                    </div>
+                    {% block javascript %}
+                    <script>
+                        const data = {
+                            labels: [{% for item in stats %}
+                            "{{item[0]}}",
+                            {% endfor %}
+                            ],
+                            datasets: [{
+                                label: 'My First Dataset',
+                                data: [{% for item in stats %}
+                            "{{item[1]}}",
+                            {% endfor %}
+                            ],
+                                backgroundColor: [
+                                'rgb(88, 24, 69)',
+                                'rgb(144, 12, 63)',
+                                'rgb(199, 0, 57)',
+                                'rgb(255, 87, 51)',
+                                'rgb(255, 195, 0)',
+                                'rgb(218, 247, 166)',
+                                'rgb(40, 116, 166 )',
+                                'rgb(23, 165, 137)',
+                                ],
+                                hoverOffset: 4
+                            }]
+                        };
+                        const config = {
+                            type: 'pie',
+                            data: data,
+                            options:{responsive:false}
+                        };
+                    </script>
+                    {% endblock %}
+
+                    <script>
+                    const myChart = new Chart(
+                        document.getElementById('InspectTypeChart'),
+                        config
+                    );
+                    </script>
+                </div>
+
+                <div class="col">               
+                    <table>
+                        {%if stats%}
+                        <tr>
+                            <th>Inspection Type</th>
+                            <th>Number of Inspections</th>
+                        </tr>
+                        {%endif%} {% for i in stats %}
+                        <tr>
+                            <td>{{i[0]}}</td>
+                            <td>{{i[1]}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>Look Up Violations of Restaurants:</h2>
+            <h3>Quick Lookup Guide:</h3>
+            <div class="container">
+                <div class="row align-items-start">
+                    <div class="col">
+                        <form method="post">
+                            <button type="submit" class="btn btn-primary" value="Most Recent" name="btn_mostRecent">Most Recent Violations</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <table>
+                {%if data%}
+                <tr>
+                    <th>Restaurant ID</th>
+                    <th>Name</th>
+                    <th>Inspection Time</th>
+                    <th>Violation Code</th>
+                    <th>Violation Description</th>
+                    <th>Violation Flag</th>
+                </tr>
+                {%endif%} {% for n in data %}
+                <tr>
+                    <td>{{n[0]}}</td>
+                    <td><a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></td>
+                    <td>{{n[2]}}</td>
+                    <td>{{n[3]}}</td>
+                    <td>{{n[4]}}</td>
+                    <td>{{n[5]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>
