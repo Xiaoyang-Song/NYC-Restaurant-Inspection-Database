@@ -140,6 +140,15 @@ def page(rid):
                            feel=page_stats['feel'], state=page_stats['state'],
                            stats=page_stats['stats'], userid=userid)
 
+@bp.route('/violations', methods=(['POST', 'GET']))
+def violations():
+    data = []
+    if request.method == 'POST':
+        if request.form.get('btn_mostRecent') == 'Most Recent':
+            cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag FROM Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid ORDER BY V.v_time DESC LIMIT 10"
+            data = g.conn.execute(text(cmd)).fetchall()
+    return render_template('functions/violations.html', data=data)
+
 
 @bp.before_app_request
 def load_session():
