@@ -5,6 +5,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     
     <body>
@@ -42,6 +43,74 @@
         </div>
       </div>
     </nav>
+
+        <!-- place a hidden field somewhere in your template to "hold" your data -->
+        <div class="container bm-5 tm-5">
+            <h2> Inspection Statistics</h2>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <canvas id="InspectTypeChart" width="400" height="400"></canvas>
+                    </div>
+                    {% block javascript %}
+                    <script>
+                        const data = {
+                            labels: [{% for item in stats %}
+                            "{{item[0]}}",
+                            {% endfor %}
+                            ],
+                            datasets: [{
+                                label: 'My First Dataset',
+                                data: [{% for item in stats %}
+                            "{{item[1]}}",
+                            {% endfor %}
+                            ],
+                                backgroundColor: [
+                                'rgb(88, 24, 69)',
+                                'rgb(144, 12, 63)',
+                                'rgb(199, 0, 57)',
+                                'rgb(255, 87, 51)',
+                                'rgb(255, 195, 0)',
+                                'rgb(218, 247, 166)',
+                                'rgb(40, 116, 166 )',
+                                'rgb(23, 165, 137)',
+                                ],
+                                hoverOffset: 4
+                            }]
+                        };
+                        const config = {
+                            type: 'pie',
+                            data: data,
+                            options:{responsive:false}
+                        };
+                    </script>
+                    {% endblock %}
+
+                    <script>
+                    const myChart = new Chart(
+                        document.getElementById('InspectTypeChart'),
+                        config
+                    );
+                    </script>
+                </div>
+
+                <div class="col">               
+                    <table>
+                        {%if stats%}
+                        <tr>
+                            <th>Inspection Type</th>
+                            <th>Number of Inspections</th>
+                        </tr>
+                        {%endif%} {% for i in stats %}
+                        <tr>
+                            <td>{{i[0]}}</td>
+                            <td>{{i[1]}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <h2>Look Up Violations of Restaurants:</h2>

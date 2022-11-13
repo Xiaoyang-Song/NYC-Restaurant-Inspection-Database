@@ -142,12 +142,15 @@ def page(rid):
 
 @bp.route('/violations', methods=(['POST', 'GET']))
 def violations():
+    stats = []
+    cmd = "SELECT I.i_type, COUNT(*) AS count FROM Inspection as I, inspect AS IR, Restaurant AS R WHERE I.iid = IR.iid AND R.rid = IR.rid GROUP BY I.i_type ORDER BY COUNT(*) DESC"
+    stats = g.conn.execute(text(cmd)).fetchall()
     data = []
     if request.method == 'POST':
         if request.form.get('btn_mostRecent') == 'Most Recent':
             cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag FROM Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid ORDER BY V.v_time DESC LIMIT 10"
             data = g.conn.execute(text(cmd)).fetchall()
-    return render_template('functions/violations.html', data=data)
+    return render_template('functions/violations.html', stats=stats, data=data)
 
 
 @bp.before_app_request
