@@ -39,45 +39,49 @@
           </div>
         </div>
       </nav>
-  
-    <h1>{% block title %}Welcome to your homepage {% endblock %}</h1>
 
-    <div>
-        <h3>User Profile</h3>
-        <div>User id: {{user_info[0]}}</div>
-        <div>Name: {{user_info[1]}}</div>
-        <div>District: {{user_info[2]}}</div>
+    <div class="container -fluid">
+        <div class="container mb-5 mt-5">
+            <h3>My Profile</h3>
+            <div>User id: {{user_info[0]}}</div>
+            <div>Name: {{user_info[1]}}</div>
+            <div>District: {{user_info[2]}}</div>
+        </div>
+
+        <div class="container mb-4"> 
+          <h4>Liked Restaurants</h4>
+          <table class="table table-hover table-borderless" style="table-layout:fixed">
+            {%if like%}
+            <tr>
+              <th scope="col" class="th-sm">Restaurant id</th>
+              <th scope="col" class="th-sm">Restaurant Name</th>
+            </tr>
+            {%endif%} {% for n in like %}
+            <tr>
+              <td>{{n[1]}}</td>
+              <td><a href="{{ url_for('functions.page', rid=n[1]) }}">{{n[2]}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>  
+
+        <div class="container mb-4">
+          <h4>Disliked Restaurants</h4>
+          <table class="table table-hover table-borderless" style="table-layout:fixed">
+            {%if dislike%}
+            <tr>
+              <th scope="col" class="th-sm">Restaurant id</th>
+              <th scope="col" class="th-sm">Restaurant Name</th>
+            </tr>
+            {%endif%} {% for n in dislike %}
+            <tr>
+              <td>{{n[1]}}</td>
+              <td><a href="{{ url_for('functions.page', rid=n[1]) }}">{{n[2]}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
     </div>
-
-    <h3>Liked Restaurant:</h3>
-    <table>
-      {%if like%}
-      <tr>
-        <th>Restaurant id</th>
-        <th>Restaurant Name</th>
-      </tr>
-      {%endif%} {% for n in like %}
-      <tr>
-        <td>{{n[1]}}</td>
-        <td><a href="{{ url_for('functions.page', rid=n[1]) }}">{{n[2]}}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-
-    <h3>Disliked Restaurant:</h3>
-    <table>
-      {%if dislike%}
-      <tr>
-        <th>Restaurant id</th>
-        <th>Restaurant Name</th>
-      </tr>
-      {%endif%} {% for n in dislike %}
-      <tr>
-        <td>{{n[1]}}</td>
-        <td><a href="{{ url_for('functions.page', rid=n[1]) }}">{{n[2]}}</a></td>
-      </tr>
-      {% endfor %}
-    </table>
-
   </body>
 </html>

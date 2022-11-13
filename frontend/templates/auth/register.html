@@ -2,22 +2,33 @@
 <h1>{% block title %}Register{% endblock %}</h1>
 {% endblock %} {% block content %}
 <form method="post">
-  <label for="userid">User ID*</label>
-  <input name="userid" id="userid" required />
-  <label for="account_name">Account Name*</label>
-  <input name="account_name" id="account_name" required />
-  <label for="password">Password*</label>
-  <input type="password" name="password" id="password" required />
+  <div class="mb-3">
+    <label for="userid" class="form-label">User ID*</label>
+    <input name="userid" id="userid" class="form-control" required />
+  </div> 
+
+  <div class="mb-3">
+    <label for="account_name" class="form-label">Account Name*</label>
+    <input name="account_name" id="account_name" class="form-control" required />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password*</label>
+    <input type="password" name="password" id="password"  class="form-control"required />
+  </div>
+
   <!-- <label for="dob">Date of Birth (mm/dd/yyyy)</label>
   <input type="dob" name="dob" id="dob" /> -->
-  <label for="district">District</label>
-  <select name="district" id="district">
-    <option value="Manhattan">Manhattan</option>
-    <option value="Bronx">Bronx</option>
-    <option value="Queens">Queens</option>
-    <option value="Brooklyn">Brooklyn</option>
-    <option value="Staten Island">Staten Island</option>
-  </select>
-  <input type="submit" value="Register" />
+   <div class="mb-3">
+    <label for="district" class="form-label">District</label>
+    <select name="district" id="district" class="form-select">
+      <option value="Manhattan">Manhattan</option>
+      <option value="Bronx">Bronx</option>
+      <option value="Queens">Queens</option>
+      <option value="Brooklyn">Brooklyn</option>
+      <option value="Staten Island">Staten Island</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Register</button>
 </form>
 {% endblock %}
