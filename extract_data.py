@@ -57,7 +57,7 @@ if __name__ == '__main__':
     # ic(['NULL', 'NULL'] == ['NULL'] * 2)
 
     # Test get_info
-    get_info(df.head(1000), 'Restaurant', 3, [True, False, False])
+    get_info(df.head(1000), 'Inspect', 1, [True])
 
     # import names
     # for _ in range(10):
