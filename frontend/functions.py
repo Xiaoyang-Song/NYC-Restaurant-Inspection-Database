@@ -204,15 +204,37 @@ def page(rid):
 
 @bp.route('/violations', methods=(['POST', 'GET']))
 def violations():
+    # stats: inspections by types
     stats = []
     cmd = "SELECT I.i_type, COUNT(*) AS count FROM Inspection as I, inspect AS IR, Restaurant AS R WHERE I.iid = IR.iid AND R.rid = IR.rid GROUP BY I.i_type ORDER BY COUNT(*) DESC"
     stats = g.conn.execute(text(cmd)).fetchall()
+
+    # stats2: violations by critical
+    stats2 = []
+    cmd = "SELECT Vn.critical_flag, COUNT(*) AS count FROM Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid GROUP BY Vn.critical_flag"
+    stats2 = g.conn.execute(text(cmd)).fetchall()
+
+    # stats3: violation by district
+    stats3 = []
+    cmd = "SELECT L.district, COUNT(*) AS count FROM Restaurant AS R, Violate AS V, Locations AS L WHERE R.lid=L.lid AND V.rid = R.rid GROUP BY L.district"
+    stats3 = g.conn.execute(text(cmd)).fetchall()
+
+    mostRestaurant_data = []
     data = []
     if request.method == 'POST':
         if request.form.get('btn_mostRecent') == 'Most Recent':
             cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag FROM Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid ORDER BY V.v_time DESC LIMIT 10"
             data = g.conn.execute(text(cmd)).fetchall()
-    return render_template('functions/violations.html', stats=stats, data=data)
+        if request.form.get('btn_mostCritical') == 'Most Critical':
+            cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag FROM Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid AND Vn.critical_flag='Critical'"
+            data = g.conn.execute(text(cmd)).fetchall()
+        if request.form.get('btn_mostRestaurants') == 'Most Restaurants':
+            cmd="SELECT R2.rid, R2.dba, COUNT(*) FROM Violate AS V2, Restaurant AS R2 WHERE V2.rid=R2.rid GROUP BY R2.rid ORDER BY COUNT(*) DESC LIMIT 10"
+            mostRestaurant_data = g.conn.execute(text(cmd)).fetchall()
+           
+            cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag FROM (SELECT R2.rid FROM Violate AS V2, Restaurant AS R2 WHERE V2.rid=R2.rid GROUP BY R2.rid ORDER BY COUNT(*) DESC LIMIT 10) AS R0, Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid AND R0.rid=R.rid"
+            data = g.conn.execute(text(cmd)).fetchall()
+    return render_template('functions/violations.html', stats=stats, stats2=stats2, stats3=stats3, data=data, mostRestaurant_data=mostRestaurant_data)
 
 
 @bp.before_app_request
