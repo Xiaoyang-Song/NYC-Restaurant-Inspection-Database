@@ -55,8 +55,8 @@ def restaurants():
 
         if dba != "":
             cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R \
-                   WHERE R.dba LIKE (:dba)"
-            dba_format = "%"+dba.capitalize()+"%"
+                   WHERE UPPER(R.dba) LIKE (:dba)"
+            dba_format = "%"+dba.upper()+"%"
             ic(dba_format)
             dba_data = g.conn.execute(text(cmd), dba=dba_format).fetchall()
             data.append(dba_data)
@@ -64,7 +64,7 @@ def restaurants():
         if cuisine != "":
             cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R \
                    WHERE UPPER(R.cuisine) LIKE (:cuisine)"
-            cuisine_format = "%"+cuisine.capitalize()+"%"
+            cuisine_format = "%"+cuisine.upper()+"%"
             ic(cuisine_format)
             cuisine_data = g.conn.execute(
                 text(cmd), cuisine=cuisine_format).fetchall()

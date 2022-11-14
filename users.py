@@ -32,8 +32,8 @@ def add_feel(connection, uid, rid: list, feel: list):
 def add_reviews(connection, uid: int, rid: int, content: str):
     # Errors relating to nonexisting rid and uid are handled elsewhere
     cmd = f"INSERT INTO Reviews_Post_Own(content, post_time, userid, rid) "\
-          f"VALUES('{content}', '{get_time_signature()}', '{uid}', {rid})"
-    cursor = connection.execute(cmd)
+          f"VALUES((:content), '{get_time_signature()}', (:uid), (:rid))"
+    cursor = connection.execute(text(cmd), content=content, uid=uid, rid=rid)
 
 
 def del_reviews(connection, revid):
