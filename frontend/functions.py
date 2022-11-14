@@ -22,7 +22,9 @@ def restaurants():
     # ic(g.user)
     data = []
     if request.method == 'POST':
+        # Get all possible form answers
         district = request.form['district']
+        
         # ic(district)
         cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
         data = g.conn.execute(text(cmd), district=district).fetchall()
@@ -139,6 +141,7 @@ def page(rid):
     return render_template('functions/page.html', info=page_stats['info'], rev=page_stats['rev'],
                            feel=page_stats['feel'], state=page_stats['state'],
                            stats=page_stats['stats'], userid=userid)
+
 
 @bp.route('/violations', methods=(['POST', 'GET']))
 def violations():
