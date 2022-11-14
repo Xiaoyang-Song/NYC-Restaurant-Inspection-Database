@@ -6,16 +6,16 @@ from sqlalchemy import *
 
 def add_user(connection, uid, account_name: str, passcode: str, district='NULL'):
     # dob_val = f"'{dob}'" if dob != 'NULL' else 'NULL' # not need anymore
-    dis_val = f"'{district}'" if district != 'NULL' else 'NULL'
-    if district != 'NULL':
-        assert district in LOCATION_SET
-    schema = f"Users(userid, account_name, password, district)"
+    # dis_val = f"'{district}'" if district != 'NULL' else 'NULL'
+    # if district != 'NULL':
+    assert district in LOCATION_SET
+    schema = "Users(userid, account_name, password, district)"
     try:
-        # TODO: change this to avoid SQL injection
-        cmd = f"INSERT INTO {schema} VALUES('{uid}', '{account_name}', '{passcode}', {dis_val})"
-        cursor = connection.execute(cmd)
+        cmd = f"INSERT INTO {schema} VALUES((:uid), (:name), (:passcode), (:dis))"
+        cursor = connection.execute(text(
+            cmd), uid=uid, name=account_name, passcode=passcode, dis=district)
     except IntegrityError:
-        error = f"User {uid} is already registered."
+        error = f"User {uid} is already registered or Invalid passcode"
         return error
     else:
         return None
@@ -25,8 +25,8 @@ def add_feel(connection, uid, rid: list, feel: list):
     assert len(rid) == len(feel)
     for id, fl in zip(rid, feel):
         assert fl in FEEL_SET
-        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES('{uid}', {id},'{fl}')"
-        cursor = connection.execute(cmd)
+        cmd = f"INSERT INTO Feel(userid, rid, feel) VALUES((:uid), (:id),(:fl))"
+        cursor = connection.execute(text(cmd), uid=uid, id=id, fl=fl)
 
 
 def add_reviews(connection, uid: int, rid: int, content: str):
