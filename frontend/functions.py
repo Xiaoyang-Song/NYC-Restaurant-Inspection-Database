@@ -60,6 +60,16 @@ def restaurants():
             ic(dba_format)
             dba_data = g.conn.execute(text(cmd), dba=dba_format).fetchall()
             data.append(dba_data)
+
+        if cuisine != "":
+            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R \
+                   WHERE UPPER(R.cuisine) LIKE (:cuisine)"
+            cuisine_format = "%"+cuisine.capitalize()+"%"
+            ic(cuisine_format)
+            cuisine_data = g.conn.execute(
+                text(cmd), cuisine=cuisine_format).fetchall()
+            data.append(cuisine_data)
+
         # List intersection
         # Fetch all restaurants first
         cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R"
