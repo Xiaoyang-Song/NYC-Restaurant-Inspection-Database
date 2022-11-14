@@ -85,9 +85,31 @@
       <div class="flash">{{ message }}</div>
       {% endfor %} {% block content %}{% endblock %}
     </section>
-    <h3>Stats</h3>
+    <h3>Records & Stats</h3>
     <div>{{stats['num_like']}} users like this restaurant</div>
     <div>{{stats['num_hate']}} users hate this restaurant</div>
+    <h3>Recent Inspection Records</h3>
+    <div class="container">
+      <table>
+          {%if violation%}
+          <tr>
+              <th>Inspection Time</th>
+              <th>Violation Code</th>
+              <th>Violation Description</th>
+              <th>Violation Flag</th>
+          </tr>
+          {%else%}
+          <div>No Violations! This restaurant pass all inspections!</div>
+          {%endif%} {% for n in violation %}
+          <tr>
+              <td>{{n[0]}}</td>
+              <td><{{n[1]}}</td>
+              <td>{{n[2]}}</td>
+              <td>{{n[3]}}</td>
+          </tr>
+          {% endfor %}
+      </table>
+  </div>
     <h3>Comments</h3>
     <form method="post">
       <label for="comment">Post your comments here!</label>

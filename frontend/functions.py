@@ -115,6 +115,14 @@ def page(rid):
             state = FL.DISLIKED
         page_stats['state'] = state
 
+        # Get recent violation records
+        cmd = "SELECT V.v_time, Vn.code, Vn.v_description, Vn.critical_flag \
+               FROM Restaurant AS R, Violate AS V , Violation AS Vn \
+               WHERE Vn.vid=V.vid AND R.rid=V.rid AND R.rid=(:rid) \
+               ORDER BY V.v_time"
+        violation = g.conn.execute(text(cmd), rid=rid).fetchall()
+        page_stats['violation'] = violation
+
     state = page_stats['state']
     # Handle like/dislike request using state machine
     update_comment = False
@@ -191,7 +199,7 @@ def page(rid):
 
     return render_template('functions/page.html', info=page_stats['info'], rev=page_stats['rev'],
                            feel=page_stats['feel'], state=page_stats['state'],
-                           stats=page_stats['stats'], userid=userid)
+                           stats=page_stats['stats'], userid=userid, violation=page_stats['violation'])
 
 
 @bp.route('/violations', methods=(['POST', 'GET']))
