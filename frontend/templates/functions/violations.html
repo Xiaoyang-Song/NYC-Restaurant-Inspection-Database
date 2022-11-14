@@ -168,7 +168,7 @@
                         {%if stats2%}
                         <tr>
                             <th>Violation Critical Level</th>
-                            <th>Number of Violations</th>
+                            <th>Number of Inspections</th>
                         </tr>
                         {%endif%} {% for i in stats2 %}
                         <tr>
@@ -196,7 +196,7 @@
                             datasets: [{
                                 label: 'Violations by Districts',
                                 data: [{% for item in stats3 %}
-                            "{{item[1]}}",
+                            "{{'%0.2f'| format((item[2]/item[1])*100|float)}}",
                             {% endfor %}
                             ],
                                 backgroundColor: [
@@ -236,12 +236,16 @@
                         {%if stats3%}
                         <tr>
                             <th>District</th>
+                            <th>Number of Inspections</th>
                             <th>Number of Violations</th>
+                            <th>Percentage</th>
                         </tr>
                         {%endif%} {% for i in stats3 %}
                         <tr>
                             <td>{{i[0]}}</td>
                             <td>{{i[1]}}</td>
+                            <td>{{i[2]}}</td>
+                            <td>{{'%0.2f'| format((i[2]/i[1])*100|float)}}%</td>
                         </tr>
                         {% endfor %}
                     </table>

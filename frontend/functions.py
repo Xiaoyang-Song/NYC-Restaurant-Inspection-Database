@@ -240,8 +240,24 @@ def violations():
 
     # stats3: violation by district
     stats3 = []
-    cmd = "SELECT L.district, COUNT(*) AS count FROM Restaurant AS R, Violate AS V, Locations AS L WHERE R.lid=L.lid AND V.rid = R.rid GROUP BY L.district"
+    cmd = "SELECT L.district, COUNT(*) AS count\
+           FROM Restaurant AS R, Inspect AS IR, Locations AS L\
+           WHERE R.lid=L.lid AND IR.rid = R.rid\
+           GROUP BY L.district"
     stats3 = g.conn.execute(text(cmd)).fetchall()
+
+    cmd = "SELECT L.district, COUNT(*) AS count\
+           FROM Restaurant AS R, Violate AS V, Locations AS L\
+           WHERE R.lid=L.lid AND V.rid = R.rid\
+           GROUP BY L.district"
+    district_vio_dict = dict(g.conn.execute(text(cmd)).fetchall())
+    # TODO: optimization later
+    for idx, (dtype, num) in enumerate(stats3):
+        if district_vio_dict.get(dtype) is not None:
+            stats3[idx] = list(stats3[idx]) + [district_vio_dict[dtype]]
+        else:
+            stats3[idx] = list(stats3[idx]) + [0]
+    stats3 = sorted(stats3, key=lambda x: x[2]/x[1], reverse=True)
 
     mostRestaurant_data = []
     data = []
