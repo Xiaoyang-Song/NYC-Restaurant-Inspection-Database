@@ -61,38 +61,40 @@
         
         <div class="container bm-5 tm-5">
                 <p>Our web app is based on "DOHMH New York City Restaurant Inspection Results" from <a href="https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j">NYC OpenData</a>.
-                    <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">See more</a>
+                    <a class="btn btn-light btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">See more</a>
                 </p>
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
-                        <p><small>The dataset contains every sustained or not yet adjudicated violation citation from every full or special program inspection conducted up to three years prior to the most recent inspection for restaurants and college cafeterias in an active status on the RECORD DATE (date of the data pull). When an inspection results in more than one violation, values for associated fields are repeated for each additional violation record. Establishments are uniquely identified by their CAMIS (record ID) number. Keep in mind that thousands of restaurants start business and go out of business every year; only restaurants in an active status are included in the dataset.
-                            Records are also included for each restaurant that has applied for a permit but has not yet been inspected and for inspections resulting in no violations. Establishments with inspection date of 1/1/1900 are new establishments that have not yet received an inspection. Restaurants that received no violations are represented by a single row and coded as having no violations using the ACTION field.
-                            Because this dataset is compiled from several large administrative data systems, it contains some illogical values that could be a result of data entry or transfer errors. Data may also be missing.
-                            This dataset and the information on the Health Department's Restaurant Grading website come from the same data source. The Health Department's Restaurant Grading website is here:
-                            http://www1.nyc.gov/site/doh/services/restaurant-grades.page
-                            See the data dictionary file in the Attachments section of the OpenData website for a summary of data fields and allowable values.
-                        </small></p>
+                        <p><small>The dataset contains every sustained or not yet adjudicated violation citation from every full or special program inspection conducted up to three years prior to the most recent inspection for restaurants and college cafeterias in an active status on the RECORD DATE (date of the data pull). When an inspection results in more than one violation, values for associated fields are repeated for each additional violation record. Establishments are uniquely identified by their CAMIS (record ID) number. Keep in mind that thousands of restaurants start business and go out of business every year; only restaurants in an active status are included in the dataset.</small></p>
+                        <p><small> Records are also included for each restaurant that has applied for a permit but has not yet been inspected and for inspections resulting in no violations. Establishments with inspection date of 1/1/1900 are new establishments that have not yet received an inspection. Restaurants that received no violations are represented by a single row and coded as having no violations using the ACTION field.</small></p>
+                        <p><small> Because this dataset is compiled from several large administrative data systems, it contains some illogical values that could be a result of data entry or transfer errors. Data may also be missing.</small></p>
+                        <p><small> This dataset and the information on the Health Department's Restaurant Grading website come from the same data source. The Health Department's Restaurant Grading website is here: <a href="http://www1.nyc.gov/site/doh/services/restaurant-grades.page">http://www1.nyc.gov/site/doh/services/restaurant-grades.page</a></small></p>
+                        <p><small> See the data dictionary file in the Attachments section of the OpenData website for a summary of data fields and allowable values.</small></p>
                     </div>
                 </div>
                
                 <p>Our latest dataset update was 2022-09-20.</p>
-                <h4>Dataset fields</h4>
+                <h4>Dataset Fields</h4>
                 
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 25rem;">
+                  <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
                     <div class="card-body">
                             <h5 class="card-title">Restaurant</h5>
                             <p class="card-text">Restaurants in NYC that have been inspected</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
+                        <li class="list-group-item">Name: <p>Public business name, may change at discretion of restaurant owner</p></li>
+                        <li class="list-group-item">District: <p>Manhattan, Bronx, Brooklyn, Queens, Staten Island</p></li>
+                        <li class="list-group-item">Location: <p>Restaurant's address and zipcode</p></li>
+                        <li class="list-group-item">Phone Number: <p>Restaurant's contact information</p></li>
+                        <li class="list-group-item">Rating Levels: <p>A=Grade A, B=Grade B, C=Grade C, P=Grade Pending issued on re-opening following an initial inspection that resulted in a closure, N=Not Yet Graded, Z=Grade Pending</p></li>
+                        <li class="list-group-item">Cuisine Description: <p>Cuisine description provided by provided by restaurant owner/manager</p></li>
                     </ul>
-                    
                 </div>
         </div>
     </div>
 
+    
 
  </body>
 
