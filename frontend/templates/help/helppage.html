@@ -51,8 +51,8 @@
         
         <div class="container bm-5 tm-5">
              <p>Welcome!</p>
-            <p>You may click "Restaurant" on the navigation bar to search for restaurants in NYC with your desired filters.</p>
-            <p>You may click "Inspections and Violations" on the navigation bar to see inspections statistics or look up specific violations of restaurants in NYC .</p>
+            <p>Click "Restaurant" on the navigation bar to search for restaurants in NYC with your desired filters. Leave comments or add restaurant to your like or hate list on each restaurant info page.</p>
+            <p>Click "Inspections and Violations" on the navigation bar to see inspections statistics or look up specific violations of restaurants in NYC .</p>
             <p>Click "Help" on the navigation bar to go back to this page anytime.</p>
         </div>
         
@@ -75,22 +75,59 @@
                
                 <p>Our latest dataset update was 2022-09-20.</p>
                 <h4>Dataset Fields</h4>
-                
-                <div class="card" style="width: 25rem;">
-                  <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
-                    <div class="card-body">
-                            <h5 class="card-title">Restaurant</h5>
-                            <p class="card-text">Restaurants in NYC that have been inspected</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Name: <p>Public business name, may change at discretion of restaurant owner</p></li>
-                        <li class="list-group-item">District: <p>Manhattan, Bronx, Brooklyn, Queens, Staten Island</p></li>
-                        <li class="list-group-item">Location: <p>Restaurant's address and zipcode</p></li>
-                        <li class="list-group-item">Phone Number: <p>Restaurant's contact information</p></li>
-                        <li class="list-group-item">Rating Levels: <p>A=Grade A, B=Grade B, C=Grade C, P=Grade Pending issued on re-opening following an initial inspection that resulted in a closure, N=Not Yet Graded, Z=Grade Pending</p></li>
-                        <li class="list-group-item">Cuisine Description: <p>Cuisine description provided by provided by restaurant owner/manager</p></li>
-                    </ul>
-                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="card" style="width: 25rem;">
+                      <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
+                        <div class="card-body">
+                                <h5 class="card-title">Restaurant</h5>
+                                <p class="card-text">Restaurants in NYC that have been inspected</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Name: <p>Public business name, may change at discretion of restaurant owner</p></li>
+                            <li class="list-group-item">District: <p>Manhattan, Bronx, Brooklyn, Queens, Staten Island</p></li>
+                            <li class="list-group-item">Location: <p>Restaurant's address and zipcode</p></li>
+                            <li class="list-group-item">Phone Number: <p>Restaurant's contact information</p></li>
+                            <li class="list-group-item">Rating Levels: <p>A=Grade A, B=Grade B, C=Grade C, P=Grade Pending issued on re-opening following an initial inspection that resulted in a closure, N=Not Yet Graded, Z=Grade Pending</p></li>
+                            <li class="list-group-item">Cuisine Description: <p>Cuisine description provided by restaurant owner/manager</p></li>
+                        </ul>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="card" style="width: 25rem;">
+                      <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
+                        <div class="card-body">
+                                <h5 class="card-title">Inspection</h5>
+                                <p class="card-text">Inspection on restaurants, may or may not result in violations</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Date: <p>Inspection record date</p></li>
+                            <li class="list-group-item">Type:
+                              <p>{Main Type}/{Secondary Type}</p>
+                              <p>Main Type: Calorie Posting, Cycle Inspection, Inter-Agency Task Force, Pre-Permit (Non-operational), Pre-Permit(Operational), Smoke-Free Air Act, Trans Fat</p>
+                              <p>Secondary Type: Compliance Inspection, Initial Inspection, Re-Inspection, Second Compliance Inspection, Reopening Inspection, Limited Inspection</p>
+                            </li>
+                            
+                        </ul>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="card" style="width: 25rem;">
+                      <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
+                        <div class="card-body">
+                                <h5 class="card-title">Violation</h5>
+                                <p class="card-text">Violation record for a restaurant inspected on an inspection</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Date: <p>Violation record date</p></li>
+                            <li class="list-group-item">Critical Flag:
+                              <p>Critical, Not Critical, Not Applicable</p>
+                            </li>
+                            <li class="list-group-item">Violation Description: <p>Description of the violation</p></li>
+                        </ul>
+                    </div> 
+                  </div>
+              </div>
         </div>
     </div>
 
