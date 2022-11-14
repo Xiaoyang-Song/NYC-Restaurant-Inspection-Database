@@ -110,7 +110,7 @@
 
       <input type="submit" value="Search" />
     </form>
-    
+    <h1>Results</h1>
     <table>
       {%if data%}
       <tr>
@@ -119,6 +119,8 @@
         <th>Cuisine Description</th>
         <th>Details</th>
       </tr>
+      {%else%}
+      <div>No available results!</div>
       {%endif%} {% for n in data %}
       <tr>
         <td>{{n[0]}}</td>

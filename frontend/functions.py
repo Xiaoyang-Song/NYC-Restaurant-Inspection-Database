@@ -20,7 +20,7 @@ page_stats = {}
 @bp.route('/restaurants', methods=(['POST', 'GET']))
 def restaurants():
     # ic(g.user)
-    data = []
+    result = []
     if request.method == 'POST':
         # Get all possible form answers
         district = request.form['district']
@@ -42,6 +42,16 @@ def restaurants():
             grade_data = g.conn.execute(
                 text(cmd), rating=rating).fetchall()
             data.append(grade_data)
+
+        if has_vio != 'None':
+            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R, Violate AS VR \
+                   WHERE R.rid=VR.rid"
+            if has_vio == 'Yes':
+                vio_data = g.conn.execute(text(cmd)).fetchall()
+            else:
+                cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R EXCEPT " + cmd
+                vio_data = g.conn.execute(text(cmd)).fetchall()
+            data.append(vio_data)
 
         # List intersection
         # Fetch all restaurants first
