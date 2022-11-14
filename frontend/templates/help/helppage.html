@@ -1,0 +1,99 @@
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='my.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+ </head>
+
+ <body>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">NYC RestaurantDB</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/home/homepage">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/functions/restaurants">Restaurant</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/functions/violations">Inspections and Violations</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown dropstart">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                User
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/userpage/userinfo">My Page</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container bm-5 tm-5">
+        <div class="halfspacer"></div>
+        <h2><i class="bi bi-house-door"></i> Web App</h2>
+        
+        <div class="container bm-5 tm-5">
+             <p>Welcome!</p>
+            <p>You may click "Restaurant" on the navigation bar to search for restaurants in NYC with your desired filters.</p>
+            <p>You may click "Inspections and Violations" on the navigation bar to see inspections statistics or look up specific violations of restaurants in NYC .</p>
+            <p>Click "Help" on the navigation bar to go back to this page anytime.</p>
+        </div>
+        
+        <div class="halfspacer"></div>
+        <h2><i class="bi bi-database"></i> About Data Base </h2>
+        
+        <div class="container bm-5 tm-5">
+                <p>Our web app is based on "DOHMH New York City Restaurant Inspection Results" from <a href="https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j">NYC OpenData</a>.
+                    <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">See more</a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <p><small>The dataset contains every sustained or not yet adjudicated violation citation from every full or special program inspection conducted up to three years prior to the most recent inspection for restaurants and college cafeterias in an active status on the RECORD DATE (date of the data pull). When an inspection results in more than one violation, values for associated fields are repeated for each additional violation record. Establishments are uniquely identified by their CAMIS (record ID) number. Keep in mind that thousands of restaurants start business and go out of business every year; only restaurants in an active status are included in the dataset.
+                            Records are also included for each restaurant that has applied for a permit but has not yet been inspected and for inspections resulting in no violations. Establishments with inspection date of 1/1/1900 are new establishments that have not yet received an inspection. Restaurants that received no violations are represented by a single row and coded as having no violations using the ACTION field.
+                            Because this dataset is compiled from several large administrative data systems, it contains some illogical values that could be a result of data entry or transfer errors. Data may also be missing.
+                            This dataset and the information on the Health Department's Restaurant Grading website come from the same data source. The Health Department's Restaurant Grading website is here:
+                            http://www1.nyc.gov/site/doh/services/restaurant-grades.page
+                            See the data dictionary file in the Attachments section of the OpenData website for a summary of data fields and allowable values.
+                        </small></p>
+                    </div>
+                </div>
+               
+                <p>Our latest dataset update was 2022-09-20.</p>
+                <h4>Dataset fields</h4>
+                
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                            <h5 class="card-title">Restaurant</h5>
+                            <p class="card-text">Restaurants in NYC that have been inspected</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                    
+                </div>
+        </div>
+    </div>
+
+
+ </body>
+
+ </html>
