@@ -24,12 +24,36 @@ def restaurants():
     if request.method == 'POST':
         # Get all possible form answers
         district = request.form['district']
-        
+        rating = request.form['rating']
+        has_vio = request.form['vio']
+        # Text input
+        dba = request.form['res_keyword']
+        cuisine = request.form['cui_keyword']
         # ic(district)
-        cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
-        data = g.conn.execute(text(cmd), district=district).fetchall()
-        # ic(data)
-    return render_template('functions/restaurants.html', data=data)
+        data = []
+        if district != 'None':
+            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
+            district_data = g.conn.execute(
+                text(cmd), district=district).fetchall()
+            data.append(district_data)
+
+        if rating != 'None':
+            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R, Graded as GR, Grade as G WHERE GR.rid = R.rid AND GR.gid = G.gid AND G.grade=(:rating)"
+            grade_data = g.conn.execute(
+                text(cmd), rating=rating).fetchall()
+            data.append(grade_data)
+
+        # List intersection
+        # Fetch all restaurants first
+        cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R"
+        result = g.conn.execute(
+            text(cmd), district=district).fetchall()
+        # Get intersection based on selection
+        for item in data:
+            result = set(result) & set(item)
+        # Sort results based on rid
+        result = sorted(result, key=lambda x: x[0], reverse=False)
+    return render_template('functions/restaurants.html', data=result)
 
 # TODO: separate this to make it more efficient
 
