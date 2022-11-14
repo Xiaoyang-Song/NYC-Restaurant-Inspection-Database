@@ -103,11 +103,15 @@
                         <tr>
                             <th>Inspection Type</th>
                             <th>Number of Inspections</th>
+                            <th>Number of Violation Records</th>
+                            <th>Percentage</th>
                         </tr>
                         {%endif%} {% for i in stats %}
                         <tr>
                             <td>{{i[0]}}</td>
                             <td>{{i[1]}}</td>
+                            <td>{{i[2]}}</td>
+                            <td>{{'%0.2f'| format((i[2]/i[1])*100|float)}}%</td>
                         </tr>
                         {% endfor %}
                     </table>
