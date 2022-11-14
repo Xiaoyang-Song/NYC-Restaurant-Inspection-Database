@@ -25,6 +25,8 @@ import functions
 from functions import *
 import userpage
 from userpage import *
+import help
+from help import *
 
 # from db_utils import get_db_conn
 
@@ -37,6 +39,7 @@ app.register_blueprint(auth.bp)
 app.register_blueprint(home.bp)
 app.register_blueprint(functions.bp)
 app.register_blueprint(userpage.bp)
+app.register_blueprint(help.bp)
 
 # XXX: The Database URI should be in the format of:
 #
