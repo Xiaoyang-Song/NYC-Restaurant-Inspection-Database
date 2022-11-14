@@ -45,8 +45,8 @@ def restaurants():
             data.append(grade_data)
 
         if has_vio != 'None':
-            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R, Violate AS VR \
-                   WHERE R.rid=VR.rid"
+            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R, Violate AS VR, Violation AS V \
+                   WHERE R.rid=VR.rid AND V.vid=VR.vid AND V.code!='000'"
             if has_vio == 'Yes':
                 vio_data = g.conn.execute(text(cmd)).fetchall()
             else:
@@ -119,7 +119,10 @@ def page(rid):
         # Get recent violation records
         cmd = "SELECT V.v_time, Vn.code, Vn.v_description, Vn.critical_flag, I.i_type \
                FROM Restaurant AS R, Violate AS V , Violation AS Vn, Inspect AS IR, Inspection AS I \
-               WHERE Vn.vid=V.vid AND R.rid=V.rid AND R.rid=(:rid) AND IR.rid=R.rid AND I.iid=IR.iid AND IR.i_time=V.v_time \
+               WHERE Vn.vid=V.vid AND R.rid=V.rid AND\
+                     R.rid=(:rid) AND IR.rid=R.rid AND\
+                     I.iid=IR.iid AND IR.i_time=V.v_time AND\
+                     Vn.code != '000' \
                ORDER BY V.v_time"
         violation = g.conn.execute(text(cmd), rid=rid).fetchall()
         page_stats['violation'] = violation
@@ -224,8 +227,9 @@ def violations():
 
     # find violations by inspection types
     cmd = "SELECT I.i_type, COUNT(*) AS count\
-        FROM Inspection as I, inspect AS IR, Restaurant AS R, Violate AS VR\
-        WHERE I.iid = IR.iid AND R.rid = IR.rid AND VR.rid=R.rid\
+        FROM Inspection as I, inspect AS IR, Restaurant AS R, Violate AS VR, Violation AS V\
+        WHERE I.iid = IR.iid AND R.rid = IR.rid AND\
+              VR.rid=R.rid AND VR.vid=V.vid AND V.code!='000'\
         GROUP BY I.i_type\
         ORDER BY COUNT(*) DESC"
     violation_dict = dict(g.conn.execute(text(cmd)).fetchall())
@@ -255,8 +259,8 @@ def violations():
     stats3 = g.conn.execute(text(cmd)).fetchall()
 
     cmd = "SELECT L.district, COUNT(*) AS count\
-           FROM Restaurant AS R, Violate AS V, Locations AS L\
-           WHERE R.lid=L.lid AND V.rid = R.rid\
+           FROM Restaurant AS R, Violate AS VR, Locations AS L, Violation AS V\
+           WHERE R.lid=L.lid AND VR.rid = R.rid AND VR.vid=V.vid AND V.code!='000'\
            GROUP BY L.district"
     district_vio_dict = dict(g.conn.execute(text(cmd)).fetchall())
     # TODO: optimization later
@@ -273,7 +277,7 @@ def violations():
         if request.form.get('btn_mostRecent') == 'Most Recent':
             cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag\
                  FROM Restaurant AS R, Violate AS V , Violation AS Vn\
-                 WHERE Vn.vid=V.vid AND R.rid=V.rid\
+                 WHERE Vn.vid=V.vid AND R.rid=V.rid AND Vn.code !='000'\
                  ORDER BY V.v_time DESC\
                  LIMIT 10"
             data = g.conn.execute(text(cmd)).fetchall()
