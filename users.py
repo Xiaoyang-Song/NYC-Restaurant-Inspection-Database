@@ -15,7 +15,7 @@ def add_user(connection, uid, account_name: str, passcode: str, district='NULL')
         cursor = connection.execute(text(
             cmd), uid=uid, name=account_name, passcode=passcode, dis=district)
     except IntegrityError:
-        error = f"User {uid} is already registered or Invalid passcode"
+        error = f"User id '{uid}' is already registered."
         return error
     else:
         return None
