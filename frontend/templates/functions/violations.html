@@ -345,15 +345,7 @@
         <option value="None">None</option>
         <option value="Not Critical">Not Critical</option>
         <option value="Critical">Critical</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label for="vio">Has Violation?</label>
-      <select name="vio" id="vio">
-        <option value="None">None</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
+        <option value="Not Applicable">Not Applicable</option>
       </select>
     </div>
 
@@ -369,11 +361,11 @@
       </div>
 
 
-      <input type="submit" value="Search" />
+      <input type="submit"  name='violationsearch' value="Search" />
     </form>
     <h1>Results</h1>
     <table>
-      {%if data%}
+      {%if result%}
       <tr>
         <th>Inspection Date</th>
         <th>Inspection Type</th>
@@ -384,12 +376,14 @@
       </tr>
       {%else%}
       <div>No available results!</div>
-      {%endif%} {% for n in data %}
+      {%endif%} {% for n in result %}
       <tr>
         <td>{{n[0]}}</td>
         <td>{{n[1]}}</td>
         <td>{{n[2]}}</td>
-        <td><a href="{{ url_for('functions.page', rid=n[0]) }}">click here for details</a></td>
+        <td><a href="{{ url_for('functions.page', rid=n[2]) }}">{{n[3]}}</a></td>
+        <td>{{n[4]}}</td>
+        <td>{{n[5]}}</td>
       </tr>
       {% endfor %}
     </table>

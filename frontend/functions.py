@@ -74,8 +74,7 @@ def restaurants():
         # List intersection
         # Fetch all restaurants first
         cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R"
-        result = g.conn.execute(
-            text(cmd), district=district).fetchall()
+        result = g.conn.execute(text(cmd)).fetchall()
         # Get intersection based on selection
         for item in data:
             result = set(result) & set(item)
@@ -223,7 +222,7 @@ def violations():
            GROUP BY I.i_type\
            ORDER BY COUNT(*) DESC"
     stats = g.conn.execute(text(cmd)).fetchall()
-    ic(stats)
+    # ic(stats)
 
     # find violations by inspection types
     cmd = "SELECT I.i_type, COUNT(*) AS count\
@@ -234,14 +233,14 @@ def violations():
         ORDER BY COUNT(*) DESC"
     violation_dict = dict(g.conn.execute(text(cmd)).fetchall())
     for idx, (itype, num) in enumerate(stats):
-        ic(itype)
-        ic(num)
+        # ic(itype)
+        # ic(num)
         if violation_dict.get(itype) is not None:
             stats[idx] = list(stats[idx]) + [violation_dict[itype]]
         else:
             stats[idx] = list(stats[idx]) + [0]
 
-    ic(stats)
+    # ic(stats)
     # Process data
     # for type, num in stats:
 
@@ -272,7 +271,9 @@ def violations():
     stats3 = sorted(stats3, key=lambda x: x[2]/x[1], reverse=True)
 
     mostRestaurant_data = []
-    data = []
+    data_qck = []
+
+    result = []
     if request.method == 'POST':
         if request.form.get('btn_mostRecent') == 'Most Recent':
             cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag\
@@ -280,27 +281,89 @@ def violations():
                  WHERE Vn.vid=V.vid AND R.rid=V.rid AND Vn.code !='000'\
                  ORDER BY V.v_time DESC\
                  LIMIT 10"
-            data = g.conn.execute(text(cmd)).fetchall()
+            data_qck = g.conn.execute(text(cmd)).fetchall()
         if request.form.get('btn_mostCritical') == 'Most Critical':
             cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag\
                  FROM Restaurant AS R, Violate AS V , Violation AS Vn\
                  WHERE Vn.vid=V.vid AND R.rid=V.rid AND Vn.critical_flag='Critical'\
                  ORDER BY V.v_time DESC\
                  LIMIT 10"
-            data = g.conn.execute(text(cmd)).fetchall()
+            data_qck = g.conn.execute(text(cmd)).fetchall()
         if request.form.get('btn_mostNonCritical') == 'Most non-critical':
             cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag\
                  FROM Restaurant AS R, Violate AS V , Violation AS Vn\
                  WHERE Vn.vid=V.vid AND R.rid=V.rid AND Vn.critical_flag='Not Critical'\
                  ORDER BY V.v_time DESC\
                  LIMIT 10"
-            data = g.conn.execute(text(cmd)).fetchall()
+            data_qck = g.conn.execute(text(cmd)).fetchall()
             # cmd = "SELECT R2.rid, R2.dba, COUNT(*) FROM Violate AS V2, Restaurant AS R2 WHERE V2.rid=R2.rid GROUP BY R2.rid ORDER BY COUNT(*) DESC LIMIT 10"
             # mostRestaurant_data = g.conn.execute(text(cmd)).fetchall()
 
             # cmd = "SELECT R.rid, R.dba, V.v_time, Vn.code, Vn.v_description, Vn.critical_flag FROM (SELECT R2.rid FROM Violate AS V2, Restaurant AS R2 WHERE V2.rid=R2.rid GROUP BY R2.rid ORDER BY COUNT(*) DESC LIMIT 10) AS R0, Restaurant AS R, Violate AS V , Violation AS Vn WHERE Vn.vid=V.vid AND R.rid=V.rid AND R0.rid=R.rid"
             # data = g.conn.execute(text(cmd)).fetchall()
-    return render_template('functions/violations.html', stats=stats, stats2=stats2, stats3=stats3, data=data, mostRestaurant_data=mostRestaurant_data)
+        if request.form.get("violationsearch") == 'Search':
+            # Get relevant fields
+            district = request.form['district']
+            cflag = request.form['cflag']
+            # Text input
+            ins = request.form['ins_keyword']
+            vio = request.form['vio_keyword']
+
+            data = []
+            if district != "None":
+                cmd = "SELECT IR.i_time, I.i_type, R.rid, R.dba, V.v_description, V.critical_flag\
+                       FROM Inspection AS I, Inspect AS IR, Restaurant AS R, Violate AS VR,\
+                            Violation AS V, Locations AS L\
+                       WHERE I.iid=IR.iid AND R.rid=IR.rid AND R.rid=VR.rid AND\
+                             V.vid=VR.vid AND R.lid=L.lid AND VR.v_time=IR.i_time AND L.district=(:district)"
+                district_data = g.conn.execute(
+                    text(cmd), district=district).fetchall()
+                data.append(district_data)
+                # ic(district_data)
+
+            if cflag != 'None':
+                cmd = "SELECT IR.i_time, I.i_type, R.rid, R.dba, V.v_description, V.critical_flag\
+                       FROM Inspection AS I, Inspect AS IR, Restaurant AS R, Violate AS VR, Violation AS V\
+                       WHERE I.iid=IR.iid AND R.rid=IR.rid AND R.rid=VR.rid AND\
+                             V.vid=VR.vid AND VR.v_time=IR.i_time AND V.critical_flag=(:cflag)"
+                cflag_data = g.conn.execute(
+                    text(cmd), cflag=cflag).fetchall()
+                data.append(cflag_data)
+
+            if vio != '':
+                cmd = "SELECT IR.i_time, I.i_type, R.rid, R.dba, V.v_description, V.critical_flag\
+                       FROM Inspection AS I, Inspect AS IR, Restaurant AS R, Violate AS VR, Violation AS V\
+                       WHERE I.iid=IR.iid AND R.rid=IR.rid AND R.rid=VR.rid AND\
+                             V.vid=VR.vid AND VR.v_time=IR.i_time AND\
+                             UPPER(V.v_description) LIKE (:vio)"
+                vio_format = "%"+vio.upper()+"%"
+                vio_data = g.conn.execute(
+                    text(cmd), vio=vio_format).fetchall()
+                data.append(vio_data)
+
+            if ins != '':
+                cmd = "SELECT IR.i_time, I.i_type, R.rid, R.dba, V.v_description, V.critical_flag\
+                       FROM Inspection AS I, Inspect AS IR, Restaurant AS R, Violate AS VR, Violation AS V\
+                       WHERE I.iid=IR.iid AND R.rid=IR.rid AND R.rid=VR.rid AND\
+                             V.vid=VR.vid AND VR.v_time=IR.i_time AND\
+                             UPPER(I.i_type) LIKE (:ins)"
+                ins_format = "%"+ins.upper()+"%"
+                ins_data = g.conn.execute(
+                    text(cmd), vio=ins_format).fetchall()
+                data.append(ins_data)
+            # Intersection
+            cmd = "SELECT IR.i_time, I.i_type, R.rid, R.dba, V.v_description, V.critical_flag\
+                   FROM Inspection AS I, Inspect AS IR, Restaurant AS R, Violate AS VR, Violation AS V\
+                   WHERE I.iid=IR.iid AND R.rid=IR.rid AND R.rid=VR.rid AND\
+                         V.vid=VR.vid AND VR.v_time=IR.i_time"
+            result = g.conn.execute(text(cmd)).fetchall()
+            for item in data:
+                result = set(result) & set(item)
+            # Sort results based on date
+            result = sorted(result, key=lambda x: x[0], reverse=True)
+
+    return render_template('functions/violations.html', stats=stats, stats2=stats2, stats3=stats3,
+                           data=data_qck, mostRestaurant_data=mostRestaurant_data, result=result)
 
 
 @bp.before_app_request
