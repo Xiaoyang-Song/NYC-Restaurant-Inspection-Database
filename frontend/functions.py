@@ -15,6 +15,7 @@ bp = Blueprint('functions', __name__, url_prefix='/functions')
 
 # Define global variables for efficiency
 page_stats = {}
+v_page_stats = {}
 
 
 @bp.route('/restaurants', methods=(['POST', 'GET']))
@@ -116,12 +117,19 @@ def page(rid):
         page_stats['state'] = state
 
         # Get recent violation records
-        cmd = "SELECT V.v_time, Vn.code, Vn.v_description, Vn.critical_flag \
-               FROM Restaurant AS R, Violate AS V , Violation AS Vn \
-               WHERE Vn.vid=V.vid AND R.rid=V.rid AND R.rid=(:rid) \
+        cmd = "SELECT V.v_time, Vn.code, Vn.v_description, Vn.critical_flag, I.i_type \
+               FROM Restaurant AS R, Violate AS V , Violation AS Vn, Inspect AS IR, Inspection AS I \
+               WHERE Vn.vid=V.vid AND R.rid=V.rid AND R.rid=(:rid) AND IR.rid=R.rid AND I.iid=IR.iid AND IR.i_time=V.v_time \
                ORDER BY V.v_time"
         violation = g.conn.execute(text(cmd), rid=rid).fetchall()
         page_stats['violation'] = violation
+
+        # Get recent grading records
+        cmd = "SELECT GR.g_time, G.grade, G.score\
+               FROM Grade AS G, Restaurant AS R, Graded AS GR\
+               WHERE G.gid=GR.gid AND R.rid=GR.rid AND R.rid=(:rid)"
+        grades = g.conn.execute(text(cmd), rid=rid).fetchall()
+        page_stats['grade'] = grades
 
     state = page_stats['state']
     # Handle like/dislike request using state machine
@@ -198,7 +206,7 @@ def page(rid):
         flash(error)
 
     return render_template('functions/page.html', info=page_stats['info'], rev=page_stats['rev'],
-                           feel=page_stats['feel'], state=page_stats['state'],
+                           feel=page_stats['feel'], state=page_stats['state'], grade=page_stats['grade'],
                            stats=page_stats['stats'], userid=userid, violation=page_stats['violation'])
 
 

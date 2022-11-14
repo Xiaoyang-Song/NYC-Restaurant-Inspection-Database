@@ -88,12 +88,31 @@
     <h3>Records & Stats</h3>
     <div>{{stats['num_like']}} users like this restaurant</div>
     <div>{{stats['num_hate']}} users hate this restaurant</div>
-    <h3>Recent Inspection Records</h3>
+    <h4>Recent Grading Records</h3>
+      <table>
+        {%if grade%}
+        <tr>
+            <th>Inspection/Grading Time</th>
+            <th>Ratings</th>
+            <th>Scores</th>
+        </tr>
+        {%else%}
+        <div>No grading records yet!</div>
+        {%endif%} {% for n in grade %}
+        <tr>
+            <td>{{n[0]}}</td>
+            <td>{{n[1]}}</td>
+            <td>{{n[2]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h4>Recent Inspection/Violation Records</h3>
     <div class="container">
       <table>
           {%if violation%}
           <tr>
               <th>Inspection Time</th>
+              <th>Inspection Type</th>
               <th>Violation Code</th>
               <th>Violation Description</th>
               <th>Violation Flag</th>
@@ -103,6 +122,7 @@
           {%endif%} {% for n in violation %}
           <tr>
               <td>{{n[0]}}</td>
+              <td>{{n[-1]}}</td>
               <td>{{n[1]}}</td>
               <td>{{n[2]}}</td>
               <td>{{n[3]}}</td>
