@@ -65,20 +65,21 @@
       <div class="spacer"></div>
       <!-- title -->
       <h1 class="mb-3 h2" style=font-size:80px><strong>Explore Restaurants</strong></h1>
-      <div class="spacer"></div>
+      <h5>click "Restaurant" tab on nacigation bar for filter search</h5>
+      <div class="halfspacer"></div>
       <!-- content -->
       <div class="container text-center" style="width: 80%;">
         <!-- search bar -->
         <div calss="row">
+          <form method="post">
             <div class="input-group rounded">
-            <form method="post">
             <input type="search" name="keywords" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <!-- <span class="input-group-text border-0" id="search-addon" type="submit" name="keywordsSearch" value="Search">
+            <button class="input-group-text border-0" id="search-addon" type="submit" name="keywordsSearch" value="Search">
               <i class="bi bi-search"></i>
-            </span> -->
-            <input type="submit" name="keywordsSearch" value="Search"/>
-            </form>
-          </div>
+            </button>
+            <!-- <input type="submit" name="keywordsSearch" value="Search"/> -->
+            </div>
+          </form>
         </div>
         <div class="halfspacer"></div>
         <!-- quick explore -->
@@ -99,40 +100,35 @@
           <!-- random button -->
           <div class="col">
             <form method="post">
-              <button type="submit" class="btn btn-dark" value="Random" name="btn_random">Random 10 Restaurants</button>
+              <button type="submit" class="btn btn-dark" value="Random" name="btn_random">Random 10 Restaurants in Your District</button>
             </form>
           </div>
         </div>
       </div>
 
-      <div class="spacer"></div>
-      <div class="spacer"></div>
+      <div class="halfspacer"></div>
       <!-- result -->
-      <div class="container">
-         <h1>Results</h1>
-    <table>
-      {%if num_col != 0%}
-      <tr>
-        <th>Restaurant ID</th>
-        <th>Name</th>
-        {%if num_col == 3%}
-        <th>Like/Dislike Count</th>
-        {%endif%}
-      </tr>
-      {%else%}
-      <div>No available results!</div>
-      {%endif%} {% for n in result %}
-      <tr>
-        <td>{{n[0]}}</td>
-        <td><a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></td>
+      <div class="container font-weight-bold bg-dark" style="opacity: 0.8;border-radius: 25px;">
+        <div class="row">
+          {%if num_col != 0%}
+          <h2>Result</h2>
+            {%if result%}
+              {% for n in result %}
+              <div class="col">
+                <p>Restaurant ID: {{n[0]}}</p>
+                <p>Name: <a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></p>
                 {%if num_col == 3%}
-        <td>{{n[-1]}}</td>
-        {%endif%}
-      </tr>
-      {% endfor %}
-    </table>
+                <p>Count: {{n[-1]}}</p>
+                {%endif%}
+              </div>
+              {% endfor %}
+            {%else%}
+              <div>No available results!</div>
+            {%endif%}
+          {%endif%}
+        </div>
       </div>
-    </div>
+      <div class="spacer"></div>
     <!-- Jumbotron -->
     
   </body>

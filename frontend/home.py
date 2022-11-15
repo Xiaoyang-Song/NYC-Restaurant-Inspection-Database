@@ -43,7 +43,7 @@ def homepage():
                    FROM Restaurant as R, Locations AS L\
                    WHERE R.lid=L.lid AND L.district=(:district)"
             result = g.conn.execute(text(cmd), district=userdis).fetchall()
-            result = np.array(result)[np.random.choice(len(result), 10, replace=False)]
+            result = list(np.array(result)[np.random.choice(len(result), 10, replace=False)])
             ic(result)
         if request.form.get("keywordsSearch") == 'Search':
             # Text input
