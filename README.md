@@ -4,6 +4,7 @@ Xiaoyang Song and Han Liu's project for NYC restaurant inspection and rating dat
 
 
 ### Keyword: SQL, ER Model, Relational Model, Database, etc.
+web app background credit: https://www.onlineoptimism.com/resources/new-orleans-zoom-backgrounds-restaurants-bars/
 
 ## Web App Demo
 
