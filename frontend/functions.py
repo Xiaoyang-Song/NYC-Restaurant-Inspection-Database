@@ -193,14 +193,14 @@ def page(rid):
         stats = {}
         # like & dislike stats
         # like
-        cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Like'"
+        cmd = "SELECT COUNT(*) FROM FEEL WHERE rid=(:rid) AND feel='Like'"
         num_like = g.conn.execute(
-            text(cmd), uid=userid, rid=rid).fetchall()
+            text(cmd), rid=rid).fetchall()
         # ic(num_like)
         # dislike
-        cmd = "SELECT COUNT(*) FROM FEEL WHERE userid=(:uid) AND rid=(:rid) AND feel='Dislike'"
+        cmd = "SELECT COUNT(*) FROM FEEL WHERE rid=(:rid) AND feel='Dislike'"
         num_hate = g.conn.execute(
-            text(cmd), uid=userid, rid=rid).fetchall()
+            text(cmd), rid=rid).fetchall()
         # ic(num_hate)
         stats['num_like'] = num_like[0][0]
         stats['num_hate'] = num_hate[0][0]

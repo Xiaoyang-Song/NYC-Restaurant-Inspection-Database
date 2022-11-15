@@ -32,7 +32,7 @@ def userinfo():
     cmd = "SELECT U.userid, F.rid, R.DBA FROM Users AS U, Feel AS F, Restaurant AS R WHERE U.userid=F.userid AND U.userid = (:id) AND feel='Dislike' AND R.rid=F.rid"
     dislike = g.conn.execute(text(cmd), id=userid).fetchall()
 
-    cmd = "SELECT U.userid, RPO.rid, R.DBA FROM Users AS U, Reviews_Post_Own AS RPO, Restaurant AS R WHERE U.userid=RPO.userid AND U.userid = (:id) AND R.rid=RPO.rid"
+    cmd = "SELECT DISTINCT U.userid, RPO.rid, R.DBA FROM Users AS U, Reviews_Post_Own AS RPO, Restaurant AS R WHERE U.userid=RPO.userid AND U.userid = (:id) AND R.rid=RPO.rid"
     comment = g.conn.execute(text(cmd), id=userid).fetchall()
     # ic(info)
     return render_template('userpage/userinfo.html', like=like, dislike=dislike, comment=comment, user_info=user_info)
