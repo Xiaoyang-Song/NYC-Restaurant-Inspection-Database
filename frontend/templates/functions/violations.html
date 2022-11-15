@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     
-    <body>
+<body>
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">NYC RestaurantDB</a>
@@ -20,13 +20,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/home/homepage">Home</a>
+              <a class="nav-link" aria-current="page" href="/home/homepage">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/functions/restaurants">Restaurant</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/functions/violations">Inspections and Violations</a>
+              <a class="nav-link active" href="/functions/violations">Inspections and Violations</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/help/helppage">Help</a>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -37,10 +40,9 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/userpage/userinfo">My Page</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Log Out</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
               </ul>
             </li>
-          </ul>
           </ul>
         </div>
       </div>
@@ -326,66 +328,66 @@
 
 
         <h1>{% block title %}Search for inspection/violation records!{% endblock %}</h1>
-    <form method="post">
-      <div class="mb-3">
-      <label for="district">District</label>
-      <select name="district" id="district">
-        <option value="None">None</option>
-        <option value="Manhattan">Manhattan</option>
-        <option value="Bronx">Bronx</option>
-        <option value="Queens">Queens</option>
-        <option value="Brooklyn">Brooklyn</option>
-        <option value="Staten Island">Staten Island</option>
-      </select>
-    </div>
+        <form method="post">
+        <div class="mb-3">
+        <label for="district">District</label>
+        <select name="district" id="district">
+            <option value="None">None</option>
+            <option value="Manhattan">Manhattan</option>
+            <option value="Bronx">Bronx</option>
+            <option value="Queens">Queens</option>
+            <option value="Brooklyn">Brooklyn</option>
+            <option value="Staten Island">Staten Island</option>
+        </select>
+        </div>
 
-    <div class="mb-3">
-      <label for="cflag">Critical Level</label>
-      <select name="cflag" id="cflag">
-        <option value="None">None</option>
-        <option value="Not Critical">Not Critical</option>
-        <option value="Critical">Critical</option>
-        <option value="Not Applicable">Not Applicable</option>
-      </select>
-    </div>
+        <div class="mb-3">
+        <label for="cflag">Critical Level</label>
+        <select name="cflag" id="cflag">
+            <option value="None">None</option>
+            <option value="Not Critical">Not Critical</option>
+            <option value="Critical">Critical</option>
+            <option value="Not Applicable">Not Applicable</option>
+        </select>
+        </div>
 
 
-      <div class="mb-3">
-        <label for="vio_keyword" class="form-label">Violation Keywords</label>
-        <input type="vio_keyword" name="vio_keyword" id="vio_keyword" class="form-control"/>
-      </div>
+        <div class="mb-3">
+            <label for="vio_keyword" class="form-label">Violation Keywords</label>
+            <input type="vio_keyword" name="vio_keyword" id="vio_keyword" class="form-control"/>
+        </div>
 
-      <div class="mb-3">
-        <label for=ins_keyword" class="form-label">Inspection Keywords</label>
-        <input type="ins_keyword" name="ins_keyword" id="ins_keyword" class="form-control"/>
-      </div>
+        <div class="mb-3">
+            <label for=ins_keyword" class="form-label">Inspection Keywords</label>
+            <input type="ins_keyword" name="ins_keyword" id="ins_keyword" class="form-control"/>
+        </div>
 
 
       <input type="submit"  name='violationsearch' value="Search" />
-    </form>
-    <h1>Results</h1>
-    <table>
-      {%if result%}
-      <tr>
-        <th>Inspection Date</th>
-        <th>Inspection Type</th>
-        <th>Restaurant ID</th>
-        <th>Name</th>
-        <th>Violation Description</th>
-        <th>Critical Flag</th>
-      </tr>
-      {%else%}
-      <div>No available results!</div>
-      {%endif%} {% for n in result %}
-      <tr>
-        <td>{{n[0]}}</td>
-        <td>{{n[1]}}</td>
-        <td>{{n[2]}}</td>
-        <td><a href="{{ url_for('functions.page', rid=n[2]) }}">{{n[3]}}</a></td>
-        <td>{{n[4]}}</td>
-        <td>{{n[5]}}</td>
-      </tr>
-      {% endfor %}
-    </table>
+        </form>
+        <h1>Results</h1>
+        <table>
+        {%if result%}
+        <tr>
+            <th>Inspection Date</th>
+            <th>Inspection Type</th>
+            <th>Restaurant ID</th>
+            <th>Name</th>
+            <th>Violation Description</th>
+            <th>Critical Flag</th>
+        </tr>
+        {%else%}
+        <div>No available results!</div>
+        {%endif%} {% for n in result %}
+        <tr>
+            <td>{{n[0]}}</td>
+            <td>{{n[1]}}</td>
+            <td>{{n[2]}}</td>
+            <td><a href="{{ url_for('functions.page', rid=n[2]) }}">{{n[3]}}</a></td>
+            <td>{{n[4]}}</td>
+            <td>{{n[5]}}</td>
+        </tr>
+        {% endfor %}
+        </table>
     </body>
 </html>
