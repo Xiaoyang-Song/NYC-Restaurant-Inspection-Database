@@ -87,6 +87,7 @@ def register():
 
 @bp.before_app_request
 def load_logged_in_user():
+    # session.clear()
     userid = session.get('userid')
     g.conn = get_db_conn()
     if userid is None:

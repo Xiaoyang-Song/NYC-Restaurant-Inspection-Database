@@ -155,9 +155,12 @@
         <td>{{n[2]}}</td>
         <td>
           {%if n[0] == userid%}
-          <form method="post">
+          <!-- <form method="post">
             <input type="submit" name="delrev" value="{{ 'Delete Comment #%s' % n[-1] }}" />
-          </form>
+          </form> -->
+          <form method="post">
+            <button type="submit" class="btn btn-primary" value="{{n[-1]}}"  name="delrev">Delete</button>
+        </form>
           {%endif%}
         </td>
       </tr>

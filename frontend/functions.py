@@ -144,7 +144,8 @@ def page(rid):
             add_reviews(g.conn, userid, rid, reviews)
             update_comment = True
         elif request.form.get('delrev') != None:
-            revid = request.form['delrev'].partition('#')[-1]
+            # revid = request.form['delrev'].partition('#')[-1]
+            revid = request.form['delrev']
             ic(revid)
             del_reviews(g.conn, revid)
             update_comment = True
