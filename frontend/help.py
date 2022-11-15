@@ -13,6 +13,6 @@ from users import *
 bp = Blueprint('help', __name__, url_prefix='/help')
 
 
-@bp.route('/helppage')
+@bp.route('/helppage', methods=(['GET']))
 def helppage():
     return render_template("help/helppage.html")

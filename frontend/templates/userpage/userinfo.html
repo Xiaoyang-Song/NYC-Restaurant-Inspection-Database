@@ -3,7 +3,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  
+  <link rel="stylesheet" href="{{ url_for('static', filename='my.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </head>
 
@@ -47,15 +49,15 @@
 
     <div class="container -fluid">
         <div class="container mb-5 mt-5">
-            <h3>My Profile</h3>
-            <div>User id: {{user_info[0]}}</div>
-            <div>Name: {{user_info[1]}}</div>
-            <div>District: {{user_info[2]}}</div>
+            <h3><i class="bi bi-person-circle"></i> My Profile</h3>
+            <div><strong>User id:</strong> {{user_info[0]}}</div>
+            <div><strong>Name:</strong> {{user_info[1]}}</div>
+            <div><strong>District:</strong> {{user_info[2]}}</div>
         </div>
 
         <div class="container mb-4"> 
-          <h4>Liked Restaurants</h4>
-          <table class="table table-hover table-borderless" style="table-layout:fixed">
+          <h4><i class="bi bi-hand-thumbs-up"></i> Liked Restaurants</h4>
+          <table class="table table-hover" style="table-layout:fixed">
             {%if like%}
             <tr>
               <th scope="col" class="th-sm">Restaurant id</th>
@@ -71,8 +73,8 @@
         </div>  
 
         <div class="container mb-4">
-          <h4>Disliked Restaurants</h4>
-          <table class="table table-hover table-borderless" style="table-layout:fixed">
+          <h4><i class="bi bi-hand-thumbs-down"></i> Disliked Restaurants</h4>
+          <table class="table table-hover" style="table-layout:fixed">
             {%if dislike%}
             <tr>
               <th scope="col" class="th-sm">Restaurant id</th>

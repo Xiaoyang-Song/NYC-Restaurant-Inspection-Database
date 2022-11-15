@@ -59,16 +59,16 @@ def homepage():
     return render_template("home/homepage.html", result=result,num_col=cols)
 
 
-@bp.before_app_request
-def load_session():
-    # ic("Loading user session")
-    g.conn = get_db_conn()
-    userid = session.get('userid')
-    userdis = session.get('district')
-    # ic(userid)
-    if userid is None:
-        g.user = None
-    else:
-        cmd = 'SELECT * FROM Users WHERE userid = (:id)'
-        # ic(cmd)
-        g.user = g.conn.execute(text(cmd), id=userid).fetchone()
+# @bp.before_app_request
+# def load_session():
+#     # ic("Loading user session")
+#     g.conn = get_db_conn()
+#     userid = session.get('userid')
+#     userdis = session.get('district')
+#     # ic(userid)
+#     if userid is None:
+#         g.user = None
+#     else:
+#         cmd = 'SELECT * FROM Users WHERE userid = (:id)'
+#         # ic(cmd)
+#         g.user = g.conn.execute(text(cmd), id=userid).fetchone()
