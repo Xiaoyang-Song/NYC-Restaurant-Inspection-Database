@@ -57,8 +57,10 @@ DB_PASSWORD = "Sxy20000425"
 
 DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
+DB_SERVER2 = "w4111project1part2db.cisxo09blonu.us-east-1.rds.amazonaws.com"
+
 DATABASEURI = "postgresql://"+DB_USER+":" + \
-    DB_PASSWORD+"@"+DB_SERVER+"/proj1part2"
+    DB_PASSWORD+"@"+DB_SERVER2+"/proj1part2"
 # local_database = "postgresql://postgres:Sxy20000425@localhost/proj1part3"
 # engine = create_engine(local_database)
 
@@ -67,28 +69,6 @@ DATABASEURI = "postgresql://"+DB_USER+":" + \
 # This line creates a database engine that knows how to connect to the URI above
 #
 engine = create_engine(DATABASEURI)
-
-
-# Here we create a test table and insert some values in it
-engine.execute("""DROP TABLE IF EXISTS test;""")
-# engine.execute("""GRANT USAGE ON SCHEMA public TO xs2485""")
-# cursor = engine.execute("""SELECT *
-# FROM pg_catalog.pg_tables
-# WHERE tableowner='xs2485';""")
-# print(cursor)
-# engine.execute(
-#     """GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO xs2485;""")
-# engine.execute(b
-#     """GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO xs2485;""")
-# engine.execute("""GRANT ALL PRIVILEGES ON DATABASE w4111 TO xs2485;""")
-
-engine.execute("""DROP TABLE IF EXISTS test;""")
-engine.execute("""CREATE TABLE IF NOT EXISTS test(id serial,name text);""")
-engine.execute(
-    """INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
-# Test code
-engine.execute(
-    """CREATE TABLE IF NOT EXISTS users(account text primary key, passcode text not null)""")
 
 
 @app.before_request
@@ -147,45 +127,6 @@ def index():
     print(request.args)
 
     #
-    # example of a database query
-    #
-    cursor = g.conn.execute("SELECT name FROM test")
-    names = []
-    for result in cursor:
-        names.append(result['name'])  # can also be accessed using result[0]
-    cursor.close()
-    #
-    # Flask uses Jinja templates, which is an extension to HTML where you can
-    # pass data to a template and dynamically generate HTML based on the data
-    # (you can think of it as simple PHP)
-    # documentation: https://realpython.com/blog/python/primer-on-jinja-templating/
-    #
-    # You can see an example template in templates/index.html
-    #
-    # context are the variables that are passed to the template.
-    # for example, "data" key in the context variable defined below will be
-    # accessible as a variable in index.html:
-    #
-    #     # will print: [u'grace hopper', u'alan turing', u'ada lovelace']
-    #     <div>{{data}}</div>
-    #
-    #     # creates a <div> tag for each element in data
-    #     # will print:
-    #     #
-    #     #   <div>grace hopper</div>
-    #     #   <div>alan turing</div>
-    #     #   <div>ada lovelace</div>
-    #     #
-    #     {% for n in data %}
-    #     <div>{{n}}</div>
-    #     {% endfor %}
-    #
-    context = dict(data=names)
-
-    #
-    # render_template looks in the templates/ folder for files.
-    # for example, the below file reads template/index.html
-    #
     return render_template("index.html")
 
 #
@@ -203,12 +144,12 @@ def another():
     return render_template("anotherfile.html")
 
 
-@app.route('/example')
-def example():
-    ex = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';"
-    cursor = g.conn.execute(ex)
-    data = [row for row in cursor]
-    return render_template("example.html", data=data)
+# @app.route('/example')
+# def example():
+#     ex = "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';"
+#     cursor = g.conn.execute(ex)
+#     data = [row for row in cursor]
+#     return render_template("example.html", data=data)
 
 
 # Example of adding new data to the database
