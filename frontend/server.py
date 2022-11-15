@@ -12,7 +12,7 @@ Read about it online.
 
 import os
 from os import abort
-from turtle import home
+# from turtle import home
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
