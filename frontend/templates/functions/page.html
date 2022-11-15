@@ -6,9 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='my.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" /> -->
   </head>
 
   <body>
@@ -49,122 +51,149 @@
       </div>
     </nav>
 
-    <p><a href="/functions/restaurants">Go back</a></p>
-    <h1>{% block title %}{{info[1]}}{% endblock %}</h1>
-    <div class="row">
-      <div class="column">
-        <h3>Information</h3>
-        <div>Restaurant id: {{info[0]}}</div>
-        <div>Phone Number: {{info[2]}}</div>
-        <div>Cuisine Description: {{info[3]}}</div>
-      </div>
-      <div class="column">
-        <h3>Location</h3>
-        <div>Address: {{info[-1]}}, {{info[-2]}}, {{info[-4]}}</div>
-        <div>Zipcode: {{info[7]}}</div>
-      </div>
-    </div>
-    <!-- Handle button color -->
-    <form method="post">
-      {%if state.value == 2%}
-      <input type="submit" name="likebutton" value="Like" />
-      <input type="submit" name="dislikebutton" value="Dislike" />
-      {%elif state.value == 0%}
-      <input type="submit" name="likebutton" value="Like" style="background-color: #ffbf00" />
-      <input type="submit" name="dislikebutton" value="Dislike" />
-      {%else%}
-      <input type="submit" name="likebutton" value="Like" />
-      <input type="submit" name="dislikebutton" value="Dislike" style="background-color: #ffbf00" />
-      {%endif%}
-    </form>
-    <div>
-      {%if feel%} {%if feel[0][0] == 'Like'%} You liked this restaurant! {%else%} You hated this restaurant!
-      {%endif%}{%endif%}
-    </div>
-    <section class="content">
-      <header>{% block header %}{% endblock %}</header>
-      {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-      {% endfor %} {% block content %}{% endblock %}
-    </section>
-    <h3>Records & Stats</h3>
-    <div>{{stats['num_like']}} users like this restaurant</div>
-    <div>{{stats['num_hate']}} users hate this restaurant</div>
-    <h4>Recent Grading Records</h3>
-      <table>
-        {%if grade%}
-        <tr>
-            <th>Inspection/Grading Time</th>
-            <th>Ratings</th>
-            <th>Scores</th>
-        </tr>
-        {%else%}
-        <div>No grading records yet!</div>
-        {%endif%} {% for n in grade %}
-        <tr>
-            <td>{{n[0]}}</td>
-            <td>{{n[1]}}</td>
-            <td>{{n[2]}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <h4>Recent Inspection/Violation Records</h3>
     <div class="container">
-      <table>
-          {%if violation%}
+      <div class="halfspacer"></div>
+      <h1 class="text-primary">{% block title %}{{info[1]}}{% endblock %}</h1>
+      
+      <div class="row">      
+          <!-- Handle button color -->
+        <form method="post">
+          {%if state.value == 2%}
+          <input type="submit" name="likebutton" value="Like" />
+          <input type="submit" name="dislikebutton" value="Dislike" />
+          {%elif state.value == 0%}
+          <input type="submit" name="likebutton" value="Like" style="background-color: #ffbf00" />
+          <input type="submit" name="dislikebutton" value="Dislike" />
+          {%else%}
+          <input type="submit" name="likebutton" value="Like" />
+          <input type="submit" name="dislikebutton" value="Dislike" style="background-color: #ffbf00" />
+          {%endif%}
+        </form>
+        <div>
+          {%if feel%} {%if feel[0][0] == 'Like'%} You liked this restaurant! {%else%} You hated this restaurant!
+          {%endif%}{%endif%}
+        </div>
+        <section class="content">
+          <header>{% block header %}{% endblock %}</header>
+          {% for message in get_flashed_messages() %}
+          <div class="flash">{{ message }}</div>
+          {% endfor %} {% block content %}{% endblock %}
+        </section>
+      </div>
+      <div class="halfspacer"></div>
+      <div class="row">
+        <div class="col">
+          <h3>Information</h3>
+          <div><strong>Restaurant id:</strong> {{info[0]}}</div>
+          <div><strong>Phone Number:</strong> {{info[2]}}</div>
+          <div><strong>Cuisine Description:</strong> {{info[3]}}</div>
+        </div>
+        <div class="col">
+          <h3>Location</h3>
+          <div><strong>Address:</strong> {{info[-1]}}, {{info[-2]}}, {{info[-4]}}</div>
+          <div><strong>Zipcode:</strong> {{info[7]}}</div>
+        </div>
+      </div>
+
+      <div class="halfspacer"></div>
+      <hr>
+      <div class="halfspacer"></div>
+      <h3>Records & Stats</h3>
+      <div>{{stats['num_like']}} users like this restaurant</div>
+      <div>{{stats['num_hate']}} users hate this restaurant</div>
+      
+      <div class="halfspacer"></div>
+      <h4>Recent Grading Records</h3>
+        <table class="table border-secondary">
+          {%if grade%}
           <tr>
-              <th>Inspection Time</th>
-              <th>Inspection Type</th>
-              <th>Violation Code</th>
-              <th>Violation Description</th>
-              <th>Violation Flag</th>
+              <th>Inspection/Grading Time</th>
+              <th>Ratings</th>
+              <th>Scores</th>
           </tr>
           {%else%}
-          <div>No Violations! This restaurant pass all inspections!</div>
-          {%endif%} {% for n in violation %}
+          <div>No grading records yet!</div>
+          {%endif%} {% for n in grade %}
           <tr>
               <td>{{n[0]}}</td>
-              <td>{{n[-1]}}</td>
               <td>{{n[1]}}</td>
               <td>{{n[2]}}</td>
-              <td>{{n[3]}}</td>
           </tr>
           {% endfor %}
       </table>
-  </div>
-    <h3>Comments</h3>
-    <form method="post">
-      <label for="comment">Post your comments here!</label>
-      <input name="comment" id="comment" required />
-      <input type="submit" name="post" value="Post" />
-    </form>
-    <table>
-      {%if rev%}
-      <tr>
-        <th>Reviews ID</th>
-        <th>User</th>
-        <th>Comments</th>
-        <th>Time</th>
-        <th>Action</th>
-      </tr>
-      {%endif%} {% for n in rev %}
-      <tr>
-        <td>{{n[-1]}}</td>
-        <td>{{n[0]}}</td>
-        <td>{{n[1]}}</td>
-        <td>{{n[2]}}</td>
-        <td>
-          {%if n[0] == userid%}
-          <!-- <form method="post">
-            <input type="submit" name="delrev" value="{{ 'Delete Comment #%s' % n[-1] }}" />
-          </form> -->
-          <form method="post">
-            <button type="submit" class="btn btn-primary" value="{{n[-1]}}"  name="delrev">Delete</button>
-        </form>
-          {%endif%}
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
+
+      <div class="halfspacer"></div>
+      <h4>Recent Inspection/Violation Records</h3>
+      <div class="container">
+        <table class="table border-secondary">
+            {%if violation%}
+            <tr>
+                <th>Inspection Time</th>
+                <th>Inspection Type</th>
+                <th>Violation Code</th>
+                <th>Violation Description</th>
+                <th>Violation Flag</th>
+            </tr>
+            {%else%}
+            <div>No Violations! This restaurant pass all inspections!</div>
+            {%endif%} {% for n in violation %}
+            <tr>
+                <td>{{n[0]}}</td>
+                <td>{{n[-1]}}</td>
+                <td>{{n[1]}}</td>
+                <td>{{n[2]}}</td>
+                <td>{{n[3]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+      </div>
+
+      <div class="halfspacer"></div>
+      <hr>
+      <div class="halfspacer"></div>
+      <h3>Comments</h3>
+      <form method="post">
+        <div class="row">
+          <div class="col-md-auto">
+            <label for="comment" class="form-label">Post your comments here:</label>
+          </div>
+          <div class="col-lg-6">
+            <input name="comment" id="comment" class="form-control" required />
+          </div>
+          <div class="col-md-auto">
+            <button type="submit" name="post" value="Post" class="btn btn-primary">Post</button>
+          </div>
+        </div>
+      </form>
+      <table class="table">
+        {%if rev%}
+        <tr>
+          <th>Reviews ID</th>
+          <th>User</th>
+          <th>Comments</th>
+          <th>Time</th>
+          <th>Action</th>
+        </tr>
+        {%endif%} {% for n in rev %}
+        <tr>
+          <td>{{n[-1]}}</td>
+          <td>{{n[0]}}</td>
+          <td>{{n[1]}}</td>
+          <td>{{n[2]}}</td>
+          <td>
+            {%if n[0] == userid%}
+            <!-- <form method="post">
+              <input type="submit" name="delrev" value="{{ 'Delete Comment #%s' % n[-1] }}" />
+            </form> -->
+            <form method="post">
+              <button type="submit" class="btn btn-danger btn-sm" value="{{n[-1]}}"  name="delrev">Delete</button>
+          </form>
+            {%endif%}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
   </body>
 </html>
