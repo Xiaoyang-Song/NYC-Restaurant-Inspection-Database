@@ -26,8 +26,6 @@ def login():
     if request.method == 'POST':
         userid = request.form['userid']
         password = request.form['password']
-        role = request.form['roles']
-        ic(role)
         error = None
 
         g.conn = get_db_conn()
