@@ -33,7 +33,9 @@ def restaurants():
         # ic(district)
         data = []
         if district != 'None':
-            cmd = "SELECT R.rid, R.dba, R.cuisine FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid  WHERE L.district=(:district)"
+            cmd = "SELECT R.rid, R.dba, R.cuisine\
+                   FROM Restaurant AS R JOIN Locations as L on R.lid=L.lid\
+                   WHERE L.district=(:district)"
             district_data = g.conn.execute(
                 text(cmd), district=district).fetchall()
             data.append(district_data)

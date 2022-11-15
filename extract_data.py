@@ -50,14 +50,14 @@ if __name__ == '__main__':
     df = preprocess(path)
     # restaurant = extract(df, 3, 'Restaurant', [
     #                      'No Name', 'No Number', 'No Description'])
-    location = extract(df, 'Location', 4, ['NULL']*4)
-    ic(location)
+    # location = extract(df, 'Location', 4, ['NULL']*4)
+    # ic(location)
     # grades = extract(df.head(100), 'Grades', 2, ['NULL']*2)
     # ic(grades)
     # ic(['NULL', 'NULL'] == ['NULL'] * 2)
 
     # Test get_info
-    get_info(df.head(1000), 'Inspect', 1, [True])
+    get_info(df.head(5000), 'Restaurant', 3, [True, False, False])
 
     # import names
     # for _ in range(10):
