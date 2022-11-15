@@ -1,19 +1,36 @@
 <html>
   <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{ url_for('static', filename='my.css') }}" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='my.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
- </head>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
- <body>
+  <body>
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">NYC RestaurantDB</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -33,12 +50,18 @@
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown dropstart">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 User
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/userpage/userinfo">My Page</a></li>
-                <li><hr class="dropdown-divider"></li>
+                <li><hr class="dropdown-divider" /></li>
                 <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
               </ul>
             </li>
@@ -47,96 +70,190 @@
       </div>
     </nav>
 
-
     <div class="container bm-5 tm-5">
-        <div class="halfspacer"></div>
-        <h2><i class="bi bi-house-door"></i> Web App</h2>
-        
-        <div class="container bm-5 tm-5">
-            <p>Welcome!</p>
-            <p>Click "Home" on the navigation bar to do some quick search for restaurants in NYC (Only 10 results will display for quick search). </p>
-            <p>Click "Restaurant" on the navigation bar to search for restaurants in NYC with your desired filters. Leave comments or add restaurant to your like or hate list on each restaurant info page.</p>
-            <p>Click "Inspections and Violations" on the navigation bar to see inspections statistics or look up specific violations of restaurants in NYC .</p>
-            <p>Click "Help" on the navigation bar to go back to this page anytime.</p>
+      <div class="halfspacer"></div>
+      <h2><i class="bi bi-house-door"></i> Web App</h2>
+
+      <div class="container bm-5 tm-5">
+        <p>Welcome!</p>
+        <p>
+          Click "Home" on the navigation bar to do some quick search for restaurants in NYC (Only 10 results will
+          display for quick search).
+        </p>
+        <p>
+          Click "Restaurant" on the navigation bar to search for restaurants in NYC with your desired filters. Leave
+          comments or add restaurant to your like or hate list on each restaurant info page.
+        </p>
+        <p>
+          Click "Inspections and Violations" on the navigation bar to see inspections statistics or look up specific
+          violations of restaurants in NYC .
+        </p>
+        <p>Click "Help" on the navigation bar to go back to this page anytime.</p>
+      </div>
+
+      <div class="halfspacer"></div>
+      <h2><i class="bi bi-database"></i> About Database</h2>
+
+      <div class="container bm-5 tm-5">
+        <p>
+          Our web app is based on "DOHMH New York City Restaurant Inspection Results" from
+          <a href="https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j"
+            >NYC OpenData</a
+          >.
+          <a
+            class="btn btn-light btn-sm"
+            data-bs-toggle="collapse"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+            >See more</a
+          >
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <p>
+              <small
+                >The dataset contains every sustained or not yet adjudicated violation citation from every full or
+                special program inspection conducted up to three years prior to the most recent inspection for
+                restaurants and college cafeterias in an active status on the RECORD DATE (date of the data pull). When
+                an inspection results in more than one violation, values for associated fields are repeated for each
+                additional violation record. Establishments are uniquely identified by their CAMIS (record ID) number.
+                Keep in mind that thousands of restaurants start business and go out of business every year; only
+                restaurants in an active status are included in the dataset.</small
+              >
+            </p>
+            <p>
+              <small>
+                Records are also included for each restaurant that has applied for a permit but has not yet been
+                inspected and for inspections resulting in no violations. Establishments with inspection date of
+                1/1/1900 are new establishments that have not yet received an inspection. Restaurants that received no
+                violations are represented by a single row and coded as having no violations using the ACTION
+                field.</small
+              >
+            </p>
+            <p>
+              <small>
+                Because this dataset is compiled from several large administrative data systems, it contains some
+                illogical values that could be a result of data entry or transfer errors. Data may also be
+                missing.</small
+              >
+            </p>
+            <p>
+              <small>
+                This dataset and the information on the Health Department's Restaurant Grading website come from the
+                same data source. The Health Department's Restaurant Grading website is here:
+                <a href="http://www1.nyc.gov/site/doh/services/restaurant-grades.page"
+                  >http://www1.nyc.gov/site/doh/services/restaurant-grades.page</a
+                ></small
+              >
+            </p>
+            <p>
+              <small>
+                See the data dictionary file in the Attachments section of the OpenData website for a summary of data
+                fields and allowable values.</small
+              >
+            </p>
+          </div>
         </div>
-        
-        <div class="halfspacer"></div>
-        <h2><i class="bi bi-database"></i> About Database </h2>
-        
-        <div class="container bm-5 tm-5">
-                <p>Our web app is based on "DOHMH New York City Restaurant Inspection Results" from <a href="https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j">NYC OpenData</a>.
-                    <a class="btn btn-light btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">See more</a>
-                </p>
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
-                        <p><small>The dataset contains every sustained or not yet adjudicated violation citation from every full or special program inspection conducted up to three years prior to the most recent inspection for restaurants and college cafeterias in an active status on the RECORD DATE (date of the data pull). When an inspection results in more than one violation, values for associated fields are repeated for each additional violation record. Establishments are uniquely identified by their CAMIS (record ID) number. Keep in mind that thousands of restaurants start business and go out of business every year; only restaurants in an active status are included in the dataset.</small></p>
-                        <p><small> Records are also included for each restaurant that has applied for a permit but has not yet been inspected and for inspections resulting in no violations. Establishments with inspection date of 1/1/1900 are new establishments that have not yet received an inspection. Restaurants that received no violations are represented by a single row and coded as having no violations using the ACTION field.</small></p>
-                        <p><small> Because this dataset is compiled from several large administrative data systems, it contains some illogical values that could be a result of data entry or transfer errors. Data may also be missing.</small></p>
-                        <p><small> This dataset and the information on the Health Department's Restaurant Grading website come from the same data source. The Health Department's Restaurant Grading website is here: <a href="http://www1.nyc.gov/site/doh/services/restaurant-grades.page">http://www1.nyc.gov/site/doh/services/restaurant-grades.page</a></small></p>
-                        <p><small> See the data dictionary file in the Attachments section of the OpenData website for a summary of data fields and allowable values.</small></p>
-                    </div>
-                </div>
-               
-                <p>Our latest dataset update was 2022-09-20. We only fetched first 5000 data from the original dataset, after deleting invalid data, [num] data remains.</p>
-                <h4>Dataset Fields</h4>
-                <div class="row">
-                  <div class="col">
-                    <div class="card" style="width: 25rem;">
-                      <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
-                        <div class="card-body">
-                                <h5 class="card-title">Restaurant</h5>
-                                <p class="card-text">Restaurants in NYC that have been inspected</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Name: <p>Public business name, may change at discretion of restaurant owner</p></li>
-                            <li class="list-group-item">District: <p>Manhattan, Bronx, Brooklyn, Queens, Staten Island</p></li>
-                            <li class="list-group-item">Location: <p>Restaurant's address and zipcode</p></li>
-                            <li class="list-group-item">Phone Number: <p>Restaurant's contact information</p></li>
-                            <li class="list-group-item">Rating Levels: <p>A=Grade A, B=Grade B, C=Grade C, P=Grade Pending issued on re-opening following an initial inspection that resulted in a closure, N=Not Yet Graded, Z=Grade Pending</p></li>
-                            <li class="list-group-item">Cuisine Description: <p>Cuisine description provided by restaurant owner/manager</p></li>
-                        </ul>
-                    </div> 
-                  </div>
-                  <div class="col">
-                    <div class="card" style="width: 25rem;">
-                      <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
-                        <div class="card-body">
-                                <h5 class="card-title">Inspection</h5>
-                                <p class="card-text">Inspection on restaurants, may or may not result in violations</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Date: <p>Inspection record date</p></li>
-                            <li class="list-group-item">Type:
-                              <p>{Main Type}/{Secondary Type}</p>
-                              <p>Main Type: Calorie Posting, Cycle Inspection, Inter-Agency Task Force, Pre-Permit (Non-operational), Pre-Permit(Operational), Smoke-Free Air Act, Trans Fat</p>
-                              <p>Secondary Type: Compliance Inspection, Initial Inspection, Re-Inspection, Second Compliance Inspection, Reopening Inspection, Limited Inspection</p>
-                            </li>
-                            
-                        </ul>
-                    </div> 
-                  </div>
-                  <div class="col">
-                    <div class="card" style="width: 25rem;">
-                      <img src="/static/images/food_bkg.jpeg" style="height:10rem" class="card-img-top" alt="...">
-                        <div class="card-body">
-                                <h5 class="card-title">Violation</h5>
-                                <p class="card-text">Violation record for a restaurant inspected on an inspection</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Date: <p>Violation record date</p></li>
-                            <li class="list-group-item">Critical Flag:
-                              <p>Critical, Not Critical, Not Applicable</p>
-                            </li>
-                            <li class="list-group-item">Violation Description: <p>Description of the violation</p></li>
-                        </ul>
-                    </div> 
-                  </div>
+
+        <p>
+          Our latest dataset update was 2022-09-20. We only fetched first 5000 data from the original dataset for this
+          project. After preprocessing based on assumptions/design choices mentioned in progress report (part2), our
+          final database contains 3812 inspection/violation/grading records.
+        </p>
+        <h4>Dataset Fields</h4>
+        <div class="row">
+          <div class="col">
+            <div class="card" style="width: 25rem">
+              <img src="/static/images/food_bkg.jpeg" style="height: 10rem" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">Restaurant</h5>
+                <p class="card-text">Restaurants in NYC that have been inspected</p>
               </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  Name:
+                  <p>Public business name, may change at discretion of restaurant owner</p>
+                </li>
+                <li class="list-group-item">
+                  District:
+                  <p>Manhattan, Bronx, Brooklyn, Queens, Staten Island</p>
+                </li>
+                <li class="list-group-item">
+                  Location:
+                  <p>Restaurant's address and zipcode</p>
+                </li>
+                <li class="list-group-item">
+                  Phone Number:
+                  <p>Restaurant's contact information</p>
+                </li>
+                <li class="list-group-item">
+                  Rating Levels:
+                  <p>
+                    A=Grade A, B=Grade B, C=Grade C, P=Grade Pending issued on re-opening following an initial
+                    inspection that resulted in a closure, N=Not Yet Graded, Z=Grade Pending
+                  </p>
+                </li>
+                <li class="list-group-item">
+                  Cuisine Description:
+                  <p>Cuisine description provided by restaurant owner/manager</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card" style="width: 25rem">
+              <img src="/static/images/food_bkg.jpeg" style="height: 10rem" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">Inspection</h5>
+                <p class="card-text">Inspection on restaurants, may or may not result in violations</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  Date:
+                  <p>Inspection record date</p>
+                </li>
+                <li class="list-group-item">
+                  Type:
+                  <p>{Main Type}/{Secondary Type}</p>
+                  <p>
+                    Main Type: Calorie Posting, Cycle Inspection, Inter-Agency Task Force, Pre-Permit (Non-operational),
+                    Pre-Permit(Operational), Smoke-Free Air Act, Trans Fat
+                  </p>
+                  <p>
+                    Secondary Type: Compliance Inspection, Initial Inspection, Re-Inspection, Second Compliance
+                    Inspection, Reopening Inspection, Limited Inspection
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card" style="width: 25rem">
+              <img src="/static/images/food_bkg.jpeg" style="height: 10rem" class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">Violation</h5>
+                <p class="card-text">Violation record for a restaurant inspected on an inspection</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  Date:
+                  <p>Violation record date</p>
+                </li>
+                <li class="list-group-item">
+                  Critical Flag:
+                  <p>Critical, Not Critical, Not Applicable</p>
+                </li>
+                <li class="list-group-item">
+                  Violation Description:
+                  <p>Description of the violation</p>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-
-    
-
- </body>
-
- </html>
+  </body>
+</html>
