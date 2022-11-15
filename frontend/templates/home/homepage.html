@@ -71,10 +71,11 @@
         <!-- search bar -->
         <div calss="row">
             <div class="input-group rounded">
-            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <span class="input-group-text border-0" id="search-addon">
+            <input type="search" name="keywords" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <span class="input-group-text border-0" id="search-addon" type="submit" name="keywordsSearch" value="Search">
               <i class="bi bi-search"></i>
             </span>
+
           </div>
         </div>
         <div class="halfspacer"></div>
@@ -106,7 +107,28 @@
       <div class="spacer"></div>
       <!-- result -->
       <div class="container">
-
+         <h1>Results</h1>
+    <table>
+      {%if num_col != 0%}
+      <tr>
+        <th>Restaurant ID</th>
+        <th>Name</th>
+        {%if num_col == 3%}
+        <th>Details</th>
+        {%endif%}
+      </tr>
+      {%else%}
+      <div>No available results!</div>
+      {%endif%} {% for n in result %}
+      <tr>
+        <td>{{n[0]}}</td>
+        <td><a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></td>
+                {%if num_col == 3%}
+        <td>{{n[-1]}}</td>
+        {%endif%}
+      </tr>
+      {% endfor %}
+    </table>
       </div>
     </div>
     <!-- Jumbotron -->

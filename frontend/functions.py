@@ -349,7 +349,7 @@ def violations():
                              UPPER(I.i_type) LIKE (:ins)"
                 ins_format = "%"+ins.upper()+"%"
                 ins_data = g.conn.execute(
-                    text(cmd), vio=ins_format).fetchall()
+                    text(cmd), ins=ins_format).fetchall()
                 data.append(ins_data)
             # Intersection
             cmd = "SELECT IR.i_time, I.i_type, R.rid, R.dba, V.v_description, V.critical_flag\
