@@ -50,7 +50,8 @@ def homepage():
             cols=2
             word = request.form['keywords']
             if word !='':
-                cmd= "SELECT R.rid, R.dba FROM Restaurant AS R WHERE R.dba LIKE (:name)"
+                # ic(word)
+                cmd= "SELECT R.rid, R.dba FROM Restaurant AS R WHERE R.dba LIKE (:name) LIMIT 10"
                 name_format = "%"+word.upper()+"%"
                 result = g.conn.execute(
                     text(cmd), name=name_format).fetchall()

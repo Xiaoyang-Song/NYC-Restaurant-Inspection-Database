@@ -71,11 +71,13 @@
         <!-- search bar -->
         <div calss="row">
             <div class="input-group rounded">
+            <form method="post">
             <input type="search" name="keywords" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <span class="input-group-text border-0" id="search-addon" type="submit" name="keywordsSearch" value="Search">
+            <!-- <span class="input-group-text border-0" id="search-addon" type="submit" name="keywordsSearch" value="Search">
               <i class="bi bi-search"></i>
-            </span>
-
+            </span> -->
+            <input type="submit" name="keywordsSearch" value="Search"/>
+            </form>
           </div>
         </div>
         <div class="halfspacer"></div>
@@ -85,19 +87,19 @@
           <!-- most liked button -->
           <div class="col">
             <form method="post">
-              <button type="submit" class="btn btn-dark" value="Most Liked" name="btn_mostLiked">Most Liked 5 Restaurants</button>
+              <button type="submit" class="btn btn-dark" value="Most Liked" name="btn_mostLiked">Most Liked 10 Restaurants</button>
             </form>
           </div>
           <!-- most hated button -->
           <div class="col">
             <form method="post">
-              <button type="submit" class="btn btn-dark" value="Most Hated" name="btn_mostHated">Most Hated 5 Restaurants</button>
+              <button type="submit" class="btn btn-dark" value="Most Hated" name="btn_mostHated">Most Hated 10 Restaurants</button>
             </form>
           </div>
           <!-- random button -->
           <div class="col">
             <form method="post">
-              <button type="submit" class="btn btn-dark" value="Random" name="btn_random">Random 5 Restaurants</button>
+              <button type="submit" class="btn btn-dark" value="Random" name="btn_random">Random 10 Restaurants</button>
             </form>
           </div>
         </div>
@@ -114,7 +116,7 @@
         <th>Restaurant ID</th>
         <th>Name</th>
         {%if num_col == 3%}
-        <th>Details</th>
+        <th>Like/Dislike Count</th>
         {%endif%}
       </tr>
       {%else%}
