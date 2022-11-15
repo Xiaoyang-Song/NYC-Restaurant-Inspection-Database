@@ -56,7 +56,7 @@
             <div class="row">
                 <div class="col">
                     <div>
-                        <canvas id="InspectTypeChart" width="400" height="400"></canvas>
+                        <canvas id="InspectTypeChart" width="500" height="500"></canvas>
                     </div>
                     {% block javascript %}
                     <script>
@@ -79,7 +79,11 @@
                                 'rgb(255, 195, 0)',
                                 'rgb(218, 247, 166)',
                                 'rgb(40, 116, 166 )',
+                                'rgb(66, 69, 156)',
+                                'rgb(66, 156, 107)',
                                 'rgb(23, 165, 137)',
+                                'rgb(132, 99, 230)',
+                                'rgb(177, 64, 147)',
                                 ],
                                 hoverOffset: 4
                             }]
@@ -124,7 +128,7 @@
             <div class="row">
                 <div class="col">
                     <div style="padding-left: 10%">
-                        <canvas id="ViolationCriticalChart" width="280" height="280"></canvas>
+                        <canvas id="ViolationCriticalChart" width="300" height="300"></canvas>
                     </div>
                     {% block javascript2 %}
                     <script>
@@ -185,7 +189,7 @@
             <!-- stats3 display -->
             <div class="row">
                 <div class="col">
-                    <div style="padding-left: 10%">
+                    <div>
                         <canvas id="ViolationDistrictChart" width="400" height="400"></canvas>
                     </div>
                     {% block javascript3 %}
@@ -233,7 +237,7 @@
                     );
                     </script>
                 </div>
-                <div class="col">               
+                <div class="col">       
                     <table class="table">
                         {%if stats3%}
                         <tr>
@@ -250,7 +254,7 @@
                             <td>{{'%0.2f'| format((i[2]/i[1])*100|float)}}%</td>
                         </tr>
                         {% endfor %}
-                    </table>
+                    </table> 
                 </div>
             </div>
         </div>
@@ -259,135 +263,125 @@
             <div class="spacer"></div>
             <h2><i class="bi bi-search"></i> Look Up Violations of Restaurants:</h2>
             <div class="container">
+                <!-- quick lookup guide -->
                 <div class="row align-items-start">
                     <div class="halfspacer"></div>
-                    <div class="col">
+                    <div class="col-md-auto">
                         <h4>Quick Lookup Guide:</h4>
                     </div>
                     <!-- quick lookup buttons -->
-                    <div class="col">
+                    <div class="col-md-auto">
                         <form method="post">
-                            <button type="submit" class="btn btn-primary" value="Most Recent" name="btn_mostRecent">Most Recent 10 Violation Records</button>
+                            <button type="submit" class="btn btn-outline-primary"  value="Most Recent" name="btn_mostRecent">Most Recent 10 Violations</button>
                         </form>
                     </div>
-                    <div class="col">
+                    <div class="col-md-auto">
                         <form method="post">
-                            <button type="submit" class="btn btn-primary" value="Most Critical" name="btn_mostCritical">Most Recent 10 critical Violations</button>
+                            <button type="submit" class="btn btn-outline-primary"  value="Most Critical" name="btn_mostCritical">Most Recent 10 Critical Violations</button>
                         </form>
                     </div>
-                    <div class="col">
+                    <div class="col-md-auto">
                         <form method="post">
-                            <button type="submit" class="btn btn-primary" value="Most non-critical" name="btn_mostNonCritical">Most Recent 10 non-critical Violations</button>
+                            <button type="submit" class="btn btn-outline-primary"  value="Most non-critical" name="btn_mostNonCritical">Most Recent 10 non-critical Violations</button>
                         </form>
                     </div>
                 </div>
+                <div class="spacer"></div>
+                <div class="container bm-5 tm-5 text-center">
+                    <h4>Search for Inspection/Violation Records</h4>
+                    <form method="post" class="form">
+                        <div class="row mb-3">
+                            <div class="col">
+                            <label for="district" class="form-label">District</label>
+                            <select name="district" id="district" class="form-select">
+                                <option value="None">None</option>
+                                <option value="Manhattan">Manhattan</option>
+                                <option value="Bronx">Bronx</option>
+                                <option value="Queens">Queens</option>
+                                <option value="Brooklyn">Brooklyn</option>
+                                <option value="Staten Island">Staten Island</option>
+                            </select>
+                            </div>
+
+                            <div class="col">
+                            <label for="cflag" class="form-label">Critical Level</label>
+                            <select name="cflag" id="cflag" class="form-select">
+                                <option value="None">None</option>
+                                <option value="Not Critical">Not Critical</option>
+                                <option value="Critical">Critical</option>
+                                <option value="Not Applicable">Not Applicable</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vio_keyword" class="form-label">Violation Keywords</label>
+                            <input type="vio_keyword" name="vio_keyword" id="vio_keyword" class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ins_keyword" class="form-label">Inspection Keywords</label>
+                            <input type="ins_keyword" name="ins_keyword" id="ins_keyword" class="form-control"/>
+                        </div>
+                        <button type="submit"  name='violationsearch' value="Search" class="btn btn-primary" >Search</button>
+                    </form>
+                </div>
+
             </div>
         </div>
 
-        <div class="container">
-            <table class="table">
-                {%if mostRestaurant_data%}
-                <tr>
-                    <th>Restaurant ID</th>
-                    <th>Name</th>
-                    <th>Violation Count</th>
-                </tr>
-                {%endif%} {% for n in mostRestaurant_data %}
-                <tr>
-                    <td>{{n[0]}}</td>
-                    <td><a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></td>
-                    <td>{{n[2]}}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
+        <div class="container bm-5 tm-5">
+            <h1>Results</h1>
 
-        <div class="container">
-            <table class="table">
-                {%if data%}
+            <div class="container">
+                <table class="table table-hover">
+                    {%if data%}
+                    <tr>
+                        <th>Restaurant ID</th>
+                        <th>Name</th>
+                        <th>Violation Date</th>
+                        <th>Violation Code</th>
+                        <th>Violation Description</th>
+                        <th>Violation Flag</th>
+                    </tr>
+                    {%endif%} {% for n in data %}
+                    <tr>
+                        <td>{{n[0]}}</td>
+                        <td><a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></td>
+                        <td>{{n[2]}}</td>
+                        <td>{{n[3]}}</td>
+                        <td>{{n[4]}}</td>
+                        <td>{{n[5]}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="container">
+                <table class="table table-hover">
+                {%if result%}
                 <tr>
+                    <th>Inspection Date</th>
+                    <th>Inspection Type</th>
                     <th>Restaurant ID</th>
                     <th>Name</th>
-                    <th>Violation Date</th>
-                    <th>Violation Code</th>
                     <th>Violation Description</th>
-                    <th>Violation Flag</th>
+                    <th>Critical Flag</th>
                 </tr>
-                {%endif%} {% for n in data %}
+                {%endif%} {% for n in result %}
                 <tr>
                     <td>{{n[0]}}</td>
-                    <td><a href="{{ url_for('functions.page', rid=n[0]) }}">{{n[1]}}</a></td>
+                    <td>{{n[1]}}</td>
                     <td>{{n[2]}}</td>
-                    <td>{{n[3]}}</td>
+                    <td><a href="{{ url_for('functions.page', rid=n[2]) }}">{{n[3]}}</a></td>
                     <td>{{n[4]}}</td>
                     <td>{{n[5]}}</td>
                 </tr>
                 {% endfor %}
-            </table>
+                </table>
+            </div>
+            {%if not result and not data%}
+            <div>No available results!</div>
+            {%endif%}
         </div>
-
-
-        <h1>{% block title %}Search for inspection/violation records!{% endblock %}</h1>
-        <form method="post">
-        <div class="mb-3">
-        <label for="district">District</label>
-        <select name="district" id="district">
-            <option value="None">None</option>
-            <option value="Manhattan">Manhattan</option>
-            <option value="Bronx">Bronx</option>
-            <option value="Queens">Queens</option>
-            <option value="Brooklyn">Brooklyn</option>
-            <option value="Staten Island">Staten Island</option>
-        </select>
-        </div>
-
-        <div class="mb-3">
-        <label for="cflag">Critical Level</label>
-        <select name="cflag" id="cflag">
-            <option value="None">None</option>
-            <option value="Not Critical">Not Critical</option>
-            <option value="Critical">Critical</option>
-            <option value="Not Applicable">Not Applicable</option>
-        </select>
-        </div>
-
-
-        <div class="mb-3">
-            <label for="vio_keyword" class="form-label">Violation Keywords</label>
-            <input type="vio_keyword" name="vio_keyword" id="vio_keyword" class="form-control"/>
-        </div>
-
-        <div class="mb-3">
-            <label for="ins_keyword" class="form-label">Inspection Keywords</label>
-            <input type="ins_keyword" name="ins_keyword" id="ins_keyword" class="form-control"/>
-        </div>
-
-
-      <input type="submit"  name='violationsearch' value="Search" />
-        </form>
-        <h1>Results</h1>
-        <table>
-        {%if result%}
-        <tr>
-            <th>Inspection Date</th>
-            <th>Inspection Type</th>
-            <th>Restaurant ID</th>
-            <th>Name</th>
-            <th>Violation Description</th>
-            <th>Critical Flag</th>
-        </tr>
-        {%else%}
-        <div>No available results!</div>
-        {%endif%} {% for n in result %}
-        <tr>
-            <td>{{n[0]}}</td>
-            <td>{{n[1]}}</td>
-            <td>{{n[2]}}</td>
-            <td><a href="{{ url_for('functions.page', rid=n[2]) }}">{{n[3]}}</a></td>
-            <td>{{n[4]}}</td>
-            <td>{{n[5]}}</td>
-        </tr>
-        {% endfor %}
-        </table>
     </body>
 </html>

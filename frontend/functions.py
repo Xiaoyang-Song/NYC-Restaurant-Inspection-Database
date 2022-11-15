@@ -271,7 +271,6 @@ def violations():
             stats3[idx] = list(stats3[idx]) + [0]
     stats3 = sorted(stats3, key=lambda x: x[2]/x[1], reverse=True)
 
-    mostRestaurant_data = []
     data_qck = []
 
     result = []
@@ -364,7 +363,7 @@ def violations():
             result = sorted(result, key=lambda x: x[0], reverse=True)
 
     return render_template('functions/violations.html', stats=stats, stats2=stats2, stats3=stats3,
-                           data=data_qck, mostRestaurant_data=mostRestaurant_data, result=result)
+                           data=data_qck, result=result)
 
 
 @bp.before_app_request

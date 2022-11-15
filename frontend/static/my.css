@@ -7,3 +7,9 @@
   padding-top: 20px;
   padding-bottom: 20px
 }
+
+.table-responsive {
+  max-height: 100px;
+  overflow: auto;
+  display:inline-block;
+}
